@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Ads {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.LongText
+  position  Position
+  link      String   @db.LongText
+  status    Boolean
+  image     String
+  limitDate DateTime
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  post Post[]
+}
+
+model Autpost {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.LongText
+  link      String   @db.LongText
+  image     String   @db.LongText
+  summary   String   @db.LongText
+  section   Section
+  source    String
+  slug      String   @db.LongText
+  posted_at DateTime
+}
+
+model Post {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.LongText
+  image      String   @db.LongText
+  content    String   @db.LongText
+  section    Section
+  slug       String   @db.LongText
+  posted_at  DateTime
+  audio      String
+  categoryId Int?
+
+  category Category? @relation(fields: [categoryId], references: [id])
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  password String
+}
+
+enum Position {
+  news
+  top
+  slide
+}
+
+enum Section {
+  n1
+  n2
+  n3
+  n4
+}
