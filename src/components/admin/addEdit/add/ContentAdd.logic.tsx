@@ -13,16 +13,17 @@ export const useLogic = () => {
     content: '',
     slug: '',
     section: 'n1',
-    categoryId: '',
+    categoryId: 0,
     posted_at: new Date(),
+    audio: '',
     file: '',
   };
   const [message, setMessage] = useState<string>('');
   const slugTitle = (title: string) => {
     return slugify(title, {
       replacement: '-',
-      remove: { remove: /[*+~.()'"!:@]/g },
-      lower: false,
+      remove: /[*+~.()'"!:@]/g,
+      lower: true,
       strict: false,
       locale: 'vi',
       trim: true,

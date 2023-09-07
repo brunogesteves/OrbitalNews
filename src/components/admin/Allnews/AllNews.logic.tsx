@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { contentNewsProps } from '@/Utils/types';
+import { useRouter } from 'next/navigation';
+import { api } from '@/Utils/api';
 
 export const useLogic = () => {
   const [allNews, setAllNews] = useState<contentNewsProps[]>([]);
@@ -10,10 +12,11 @@ export const useLogic = () => {
   const [runSpinner, setRunSpinner] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [idToDelete, setIdToDelete] = useState<number>(0);
+  const router = useRouter();
 
   useEffect(() => {
     async function getAllNews() {
-      axios.get('http://localhost:3000/api/allnews').then((res) => {
+      await api.get('/allnews').then((res) => {
         if (res.data) setAllNews(res.data.content);
       });
     }
@@ -59,6 +62,7 @@ export const useLogic = () => {
       isOpen,
       runSpinner,
       isDeleted,
+      router,
     },
     methods: {
       setIsOpen,

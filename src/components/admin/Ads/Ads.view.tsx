@@ -6,22 +6,23 @@ import { Field, Form, Formik } from 'formik';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { PostSchema } from '@/Utils/yup';
+import { BannerSchema } from '@/Utils/yup';
 import { useLogic } from './Ads.logic';
 import ImageUpload from '../addEdit/ImageUpload';
+import { api } from '@/Utils/api';
 
 const Ads = () => {
   const { data, methods } = useLogic();
   return (
     <div className="w-full flex justify-center items-center flex-col">
       <div className="h-auto w-auto my-3 flex flex-col">
-        <span className="text-3xl">Top Banners</span>
         <button
           className="bg-slate-300 text-black py-2 rounded-md my-2"
           onClick={() => methods.setIsOpen(true)}
         >
           Add Banner
         </button>
+        <span className="text-3xl">Top Banners</span>
         {data.topBanners.map((banner, i) => (
           <Image
             key={i}
@@ -86,27 +87,24 @@ const Ads = () => {
                   </button> */}
                   <Formik
                     initialValues={data.initialValues}
-                    validationSchema={PostSchema}
+                    validationSchema={BannerSchema}
                     onSubmit={async (values) => {
-                      //           console.log('ads: ', values);
-                      //           await api
-                      // .post('/addbanner', values)
-                      // .then(async (res) => {
-                      //   if (res.data.success) {
-                      //     const formData = new FormData();
-                      //     formData.append('file', values.file[0]);
-                      //     formData.append('name', values.image);
-                      //     formData.append('directory', '/banner');
-                      //     const response = await fetch('/api/upload', {
-                      //       method: 'POST',
-                      //       body: formData,
-                      //     });
-                      //     if (response) {
-                      //       methods.setMessage('banner Added');
-                      //     }
-                      //   }
-                      // })
-                      // .catch((error) => console.log(error));
+                      console.log('ads: ', values);
+                      await api
+                        .post('/addbanner', values)
+                        .then(async (res) => {
+                          if (res.data.success) {
+                            const formData = new FormData();
+                            formData.append('file', values.file[0]);
+                            formData.append('name', values.image);
+                            formData.append('directory', '/banners');
+                            const response = await fetch('/api/upload', {
+                              method: 'POST',
+                              body: formData,
+                            });
+                          }
+                        })
+                        .catch((error) => console.log(error));
                     }}
                   >
                     {({ errors, touched, values, setFieldValue }) => (
@@ -128,6 +126,7 @@ const Ads = () => {
                           name="position"
                           className="mb-3 w-full border-2 border-black rounded-md"
                         >
+                          <option>Select a position</option>
                           <option value="top">top</option>
                           <option value="slide">slide</option>
                           <option value="news">news</option>
@@ -141,14 +140,14 @@ const Ads = () => {
                         />
                         <Field
                           as="select"
-                          name="link"
+                          name="status"
                           className="mb-3 w-full border-2 border-black rounded-md"
                         >
                           <option>Choose the status</option>
                           <option value="true">true</option>
                           <option value="false">false</option>
                         </Field>
-                        {methods.errorField(errors, touched, 'limitDate')}
+                        {methods.errorField(errors, touched, 'status')}
                         <ImageUpload
                           file={(e: any) => {
                             setFieldValue('image', e[0].name);

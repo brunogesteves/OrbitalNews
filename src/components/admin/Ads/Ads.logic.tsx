@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { api } from '@/Utils/api';
+import { useEffect, useState } from 'react';
 
 interface BannerProps {
   title: string;
@@ -15,6 +16,18 @@ export const useLogic = () => {
   const [topBanners, setTopBanners] = useState<BannerProps[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  async function getBanners() {
+    await api.get(`/addbanner`).then((res) => {
+      if (res.data.results) {
+        setSlideBanners(res.data.results.topAds);
+      }
+    });
+  }
+
+  useEffect(() => {
+    getBanners();
+  }, []);
+
   const initialValues = {
     title: '',
     position: '',
@@ -22,6 +35,7 @@ export const useLogic = () => {
     status: '',
     image: '',
     limitDate: new Date(),
+    file: '',
   };
 
   function errorField(errors: any, touched: any, fieldName: string) {

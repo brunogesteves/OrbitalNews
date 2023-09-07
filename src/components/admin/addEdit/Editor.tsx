@@ -13,6 +13,7 @@ const SunEditor = dynamic(() => import('suneditor-react'), {
 
 interface editorProps {
   contentPost: (content: string) => void;
+  audio: (content: string | undefined) => void;
   defaultContent: string;
 }
 
@@ -102,7 +103,10 @@ const Editor = (props: editorProps) => {
       setContents={props.defaultContent}
       lang={'pt_br'}
       height="70vh"
-      onChange={(e) => props.contentPost(e)}
+      onChange={(e) => {
+        props.audio(editor.current?.getText());
+        props.contentPost(e);
+      }}
     />
   );
 };

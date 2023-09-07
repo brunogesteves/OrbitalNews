@@ -1,4 +1,3 @@
-'use client';
 import React, { FC } from 'react';
 
 import RootAdminLayout from '@/components/admin/Layout';

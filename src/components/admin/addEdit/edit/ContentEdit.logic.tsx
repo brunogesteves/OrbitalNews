@@ -1,28 +1,52 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 var slugify = require('slugify');
 
 import { contentNewsProps } from '@/Utils/types';
+import { api } from '@/Utils/api';
 
 export const useLogic = (id: number) => {
   const [infopost, setInfopost] = useState<contentNewsProps>();
-  async function getContentPost() {
-    axios
-      .get(`http://localhost:3000/api/getidpost/${id}`)
-      .then((res) => setInfopost(res.data.success));
+  const [message, setMessage] = useState('');
+  function getContentPost() {
+    api.get(`/getidpost/${id}`).then((res) => {
+      setInfopost(res.data.success);
+    });
   }
 
   useEffect(() => {
     getContentPost();
   }, []);
 
-  const [message, setMessage] = useState('');
+  function toDate(date: any) {
+    return new Date(date).toLocaleDateString('en-us', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  }
+
+  const initialValues = {
+    title: infopost?.title ?? '',
+    image: infopost?.image ?? '',
+    content: infopost?.content ?? '',
+    slug: infopost?.slug ?? '',
+    section: infopost?.section ?? '',
+    categoryId: infopost?.categoryId ?? 0,
+    posted_at: new Date(),
+    audio: infopost?.audio ?? '',
+    file: '',
+  };
+
   const slugTitle = (title: string) => {
     return slugify(title, {
       replacement: '-',
-      remove: { remove: /[*+~.()'"!:@]/g },
-      lower: false,
+      remove: /[*+~.()'"!:@]/g,
+      lower: true,
       strict: false,
       locale: 'vi',
       trim: true,
@@ -37,12 +61,10 @@ export const useLogic = (id: number) => {
 
   return {
     data: {
-      infopost,
+      initialValues,
       message,
     },
     methods: {
-      setInfopost,
-      getContentPost,
       setMessage,
       slugTitle,
       errorField,

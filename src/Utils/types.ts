@@ -1,11 +1,13 @@
 export interface contentNewsProps {
-  id: number;
+  id?: number;
   title: string;
   image: string;
   content: string;
-  section: string;
   slug: string;
+  section: string;
   posted_at: Date;
+  audio: string;
+  file: string;
   categoryId?: number;
   category: {
     name: string;

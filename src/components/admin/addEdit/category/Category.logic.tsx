@@ -1,27 +1,27 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { api } from '@/Utils/api';
 
 interface categoriesProps {
   id: number;
   name: string;
 }
 
-export const useLogic = (defaultValue: string) => {
+export const useLogic = (defaultValue: number) => {
   const [isOpen, setIsOpen] = useState(false);
   const [runSpinner, setRunSpinner] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [nameCategory, setNameCategory] = useState<string>('');
   const [categorySelected, setCategorySelected] =
-    useState<string>(defaultValue);
+    useState<number>(defaultValue);
   const [showWarning, setShowWarning] = useState(false);
   const [allCategories, setAllCategories] = useState<categoriesProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
   const [garbageHover, setGarbageHover] = useState(0);
 
   async function getCategories() {
-    await axios
-      .get('http://localhost:3000/api/getcategories')
+    await api
+      .get('/getcategories')
       .then((res) => setAllCategories(res.data.allCategories))
       .catch((error) => console.log(error));
   }
@@ -40,8 +40,8 @@ export const useLogic = (defaultValue: string) => {
   async function addCategory() {
     if (nameCategory) {
       setRunSpinner(true);
-      await axios
-        .post('http://localhost:3000/api/addcategories', { name: nameCategory })
+      await api
+        .post('/addcategories', { name: nameCategory })
         .then((res) => {
           if (res.data.status) {
             setRunSpinner(false);
@@ -63,8 +63,8 @@ export const useLogic = (defaultValue: string) => {
   }
 
   async function deleteCategory(id: number) {
-    await axios
-      .delete(`http://localhost:3000/api/deletecategory/${id}`)
+    await api
+      .delete(`/deletecategory/${id}`)
       .then((res) => {
         if (res.data.status) {
           setAllCategories(

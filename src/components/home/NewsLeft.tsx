@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { contentNewsProps } from '@/Utils/types';
 import { api } from '@/Utils/api';
 
-const NewsLeft = ({ news }: any) => {
+const NewsLeft = () => {
   const [allNews, setAllNews] = useState<contentNewsProps[]>([]);
 
   useEffect(() => {
@@ -21,12 +21,12 @@ const NewsLeft = ({ news }: any) => {
       {allNews?.map((news) => {
         return (
           <Link
-            href={news.slug}
+            href={`/${news.slug}`}
             className="w-1/2 max-sm:w-full max-sm:flex max-sm:justify-center max-sm:items-center max-sm:h-auto px-1"
             key={news.id}
           >
             <Image
-              src="/logo.jpg"
+              src={`/${news.image}`}
               alt=""
               width={200}
               height={200}

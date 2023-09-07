@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
 
   const file: File | null = data.get('file') as unknown as File;
   const fileName: string = data.get('name') as string;
+  const directory: string = data.get('directory') as string;
   console.log(fileName);
 
   if (!file) {
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const path = `public/${fileName}.jpg`;
+  const path = `public${directory}${fileName}`;
   await writeFile(path, buffer);
 
   return NextResponse.json({ success: true });

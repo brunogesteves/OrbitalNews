@@ -7,7 +7,7 @@ import { useLogic } from './Category.logic';
 
 interface categoriesProps {
   category: (cat: number) => void;
-  defaultValue: string;
+  defaultValue: number;
 }
 
 const Category = (props: categoriesProps) => {
@@ -17,19 +17,16 @@ const Category = (props: categoriesProps) => {
     <>
       <div className="group w-full">
         <div className="flex items-center border-2 border-black rounded-md h-8 w-full p-2">
-          {data.categorySelected}
+          {data.allCategories[data?.categorySelected - 1 ?? 0]?.name ?? ''}
         </div>
         <div className=" w-full bg-slate-50 px-2 overflow-y-auto max-h-56  hidden group-hover:block">
-          <div
-            className="hover:cursor-pointer hover:bg-slate-200"
-            onClick={() => methods.setCategorySelected('Select a category')}
-          >
+          <div className="hover:cursor-pointer hover:bg-slate-200">
             Select a category
           </div>
           <div
             className="hover:cursor-pointer hover:bg-slate-200"
             onClick={() => {
-              methods.setCategorySelected('');
+              methods.setCategorySelected(0);
               methods.setIsOpen(true);
             }}
           >
@@ -43,9 +40,9 @@ const Category = (props: categoriesProps) => {
                   key={category.id}
                 >
                   <span
-                    className="w-11/12"
+                    className="w-11/12 capitalize"
                     onClick={() => {
-                      methods.setCategorySelected(category.name);
+                      methods.setCategorySelected(category.id);
                       props.category(category.id);
                     }}
                   >
@@ -68,9 +65,9 @@ const Category = (props: categoriesProps) => {
                   key={category.id}
                 >
                   <span
-                    className="w-11/12"
+                    className="w-11/12 capitalize"
                     onClick={() => {
-                      methods.setCategorySelected(category.name);
+                      methods.setCategorySelected(category.id);
                       props.category(category.id);
                     }}
                   >

@@ -25,18 +25,6 @@ model Category {
   post Post[]
 }
 
-model Autpost {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.LongText
-  link      String   @db.LongText
-  image     String   @db.LongText
-  summary   String   @db.LongText
-  section   Section
-  source    String
-  slug      String   @db.LongText
-  posted_at DateTime
-}
-
 model Post {
   id         Int      @id @default(autoincrement())
   title      String   @db.LongText
@@ -45,7 +33,7 @@ model Post {
   section    Section
   slug       String   @db.LongText
   posted_at  DateTime
-  audio      String
+  audio      String   @db.LongText
   categoryId Int?
 
   category Category? @relation(fields: [categoryId], references: [id])

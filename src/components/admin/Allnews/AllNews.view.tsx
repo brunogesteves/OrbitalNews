@@ -1,7 +1,6 @@
 'use client';
 import { Fragment } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { AiFillDelete } from 'react-icons/ai';
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -12,7 +11,7 @@ const AllNews = () => {
 
   return (
     <>
-      {data.allNews
+      {data?.allNews
         ?.sort(
           (a, b) =>
             methods.dateToNumber(b.posted_at) -
@@ -20,7 +19,7 @@ const AllNews = () => {
         )
         .map((news) => (
           <div
-            className="flex justify-between items-center h-auto w-full gap-x-2 px-3 mt-3"
+            className="flex justify-between items-center h-auto w-full gap-x-2 px-3 mt-3 bg-green-500"
             key={news.id}
           >
             <Image
@@ -30,34 +29,28 @@ const AllNews = () => {
               height={100}
               className="w-30 h-30 object-cover"
             />
-            <Link href={`/admin/edit/${news.id}`}>
-              <h2 className="w-96">{news.title}</h2>
-            </Link>
+            <h2 className="w-96">{news.title}</h2>
             <h2 className="w-5">{news.section}</h2>
             <h2 className="w-5">{news.category?.name}</h2>
             <h2 className="w-40"> {methods.toDate(news?.posted_at)}</h2>
 
             <div className="flex gap-x-1">
-              <button className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3">
-                Verificar
-              </button>
-              <form
-                action="{{router}}/components/admin/time.php"
-                method="POST"
-                className="mt-4"
+              <button
+                className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3"
+                onClick={() => data.router.replace(`/admin/edit/${news.id}`)}
               >
-                <input type="hidden" name="id" value="{{id}}" />
+                Edit
+              </button>
 
-                <AiFillDelete
-                  size={20}
-                  color="red"
-                  className="cursor-pointer"
-                  onClick={() => {
-                    methods.setIsOpen(true);
-                    methods.setIdToDelete(news.id);
-                  }}
-                />
-              </form>
+              <AiFillDelete
+                size={20}
+                color="red"
+                className="cursor-pointer mt-4"
+                onClick={() => {
+                  methods.setIsOpen(true);
+                  methods.setIdToDelete(news?.id ?? 0);
+                }}
+              />
             </div>
           </div>
         ))}

@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ImageUpload from '@/components/admin/addEdit/ImageUpload';
 import Category from '@/components/admin/addEdit/category/Category.view';
 import Editor from '@/components/admin/addEdit/Editor';
-import { BannerSchema } from '@/Utils/yup';
+import { PostSchema } from '@/Utils/yup';
 import { useLogic } from './ContentAdd.logic';
 import { api } from '@/Utils/api';
 
@@ -18,7 +18,7 @@ const ContentAdd = () => {
     <div className="flex justify-start items-start h-full ">
       <Formik
         initialValues={data.initialValues}
-        validationSchema={BannerSchema}
+        validationSchema={PostSchema}
         onSubmit={async (values) => {
           values.slug = methods.slugTitle(values.title);
 
@@ -58,6 +58,7 @@ const ContentAdd = () => {
                   name="title"
                   placeholder="title name"
                   className="border-2 border-black rounded-md mb-3 pl-1 w-full"
+                  onInput={() => console.log(values.title.length)}
                 />
                 {methods.errorField(errors, touched, 'title')}
                 <Field
@@ -87,7 +88,7 @@ const ContentAdd = () => {
 
                 <Category
                   category={(e: number) => setFieldValue('categoryId', e)}
-                  defaultValue={''}
+                  defaultValue={0}
                 />
                 {methods.errorField(errors, touched, 'categoryId')}
                 <div className="w-full text-center mt-3">{data.message}</div>
@@ -95,6 +96,7 @@ const ContentAdd = () => {
               <div className="w-3/4">
                 <Editor
                   contentPost={(e: string) => setFieldValue('content', e)}
+                  audio={(e: string | undefined) => setFieldValue('audio', e)}
                   defaultContent=""
                 />
                 {methods.errorField(errors, touched, 'content')}

@@ -5,7 +5,8 @@ CREATE TABLE `Ads` (
     `position` ENUM('news', 'top', 'slide') NOT NULL,
     `link` LONGTEXT NOT NULL,
     `status` BOOLEAN NOT NULL,
-    `file` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `limitDate` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -19,21 +20,6 @@ CREATE TABLE `Category` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Autpost` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `title` LONGTEXT NOT NULL,
-    `link` LONGTEXT NOT NULL,
-    `image` LONGTEXT NOT NULL,
-    `summary` LONGTEXT NOT NULL,
-    `section` ENUM('n1', 'n2', 'n3', 'n4') NOT NULL,
-    `source` VARCHAR(191) NOT NULL,
-    `slug` LONGTEXT NOT NULL,
-    `posted_at` DATETIME(3) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `Post` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` LONGTEXT NOT NULL,
@@ -42,6 +28,7 @@ CREATE TABLE `Post` (
     `section` ENUM('n1', 'n2', 'n3', 'n4') NOT NULL,
     `slug` LONGTEXT NOT NULL,
     `posted_at` DATETIME(3) NOT NULL,
+    `audio` LONGTEXT NOT NULL,
     `categoryId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
