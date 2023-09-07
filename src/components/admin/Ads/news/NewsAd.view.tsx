@@ -7,43 +7,58 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { BannerSchema } from '@/Utils/yup';
-import { useLogic } from './Ads.logic';
-import ImageUpload from '../addEdit/ImageUpload';
+import { useLogic } from './NewsAd.logic';
+import ImageUpload from '../../addEdit/ImageUpload';
 import { api } from '@/Utils/api';
+import { AiFillDelete } from 'react-icons/ai';
 
-const Ads = () => {
+const NewsAd = () => {
   const { data, methods } = useLogic();
   return (
-    <div className="w-full flex justify-center items-center flex-col">
-      <div className="h-auto w-auto my-3 flex flex-col">
-        <button
-          className="bg-slate-300 text-black py-2 rounded-md my-2"
-          onClick={() => methods.setIsOpen(true)}
+    <div className="w-full flex justify-center items-center flex-col ">
+      <button
+        className="bg-slate-300 text-black py-2 rounded-md my-2 w-20"
+        onClick={() => methods.setIsOpen(true)}
+      >
+        Add Banner
+      </button>
+
+      <div className="text-3xl">News banners</div>
+      {data.banners.map((banner) => (
+        <div
+          key={banner.id}
+          className="h-auto w-full flex justify-between items-center my-3 mr-3"
         >
-          Add Banner
-        </button>
-        <span className="text-3xl">Top Banners</span>
-        {data.topBanners.map((banner, i) => (
           <Image
-            key={i}
-            src={`/banners/${banner.title}`}
-            alt={banner.title}
-            width={100}
-            height={100}
-            className="w-full h-auto"
+            src={`/banners/${banner.image}`}
+            alt={banner.image}
+            width={500}
+            height={500}
+            className="w-1/2 h-auto"
           />
-        ))}
-      </div>
-      <div className="text-3xl">Slide banners</div>
-      {data.slideBanners.map((banner, i) => (
-        <Image
-          key={i}
-          src={`/banners/${banner.title}`}
-          alt={banner.title}
-          width={100}
-          height={100}
-          className="w-full h-auto"
-        />
+          <span>Status: </span>
+          <select defaultValue={banner.status}>
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+          <span>Expiration Date: {methods.toDate(banner.limitDate)}</span>
+
+          <button
+            className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3"
+            // onClick={() => data.router.replace(`/admin/edit/${news.id}`)}
+          >
+            Update
+          </button>
+          <AiFillDelete
+            size={20}
+            color="red"
+            className="cursor-pointer"
+            onClick={() => {
+              methods.setIsOpen(true);
+              methods.setIdToDelete(banner?.id ?? 0);
+            }}
+          />
+        </div>
       ))}
       <Transition appear show={data.isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={methods.closeModal}>
@@ -78,13 +93,13 @@ const Ads = () => {
                     Add Banner
                   </Dialog.Title>
 
-                  {/* <button
+                  <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                     onClick={methods.closeModal}
                   >
                     Close
-                  </button> */}
+                  </button>
                   <Formik
                     initialValues={data.initialValues}
                     validationSchema={BannerSchema}
@@ -182,4 +197,4 @@ const Ads = () => {
   );
 };
 
-export default Ads;
+export default NewsAd;

@@ -26,7 +26,6 @@ const NewsRight = () => {
             key={news.id}
           >
             <Image
-              // src="/logo.jpg"
               src={`/${news.image}`}
               alt=""
               width={200}

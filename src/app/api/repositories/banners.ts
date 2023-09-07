@@ -1,4 +1,4 @@
-import { Ads } from '@prisma/client';
+import { Ads, Position } from '@prisma/client';
 
 import prisma from './prismaClient';
 
@@ -9,25 +9,14 @@ export const createBanner = async (data: Ads) => {
   return isCreated;
 };
 
-export const getAllAds = async () => {
-  const topAds = await db.findMany({
+export const getAllAds = async (section: Position) => {
+  const ads = await db.findMany({
     where: {
-      position: 'top',
+      position: section,
     },
   });
 
-  const newsAds = await db.findMany({
-    where: {
-      position: 'news',
-    },
-  });
-  const slideAds = await db.findMany({
-    where: {
-      position: 'slide',
-    },
-  });
-
-  return { topAds, slideAds, newsAds };
+  return ads;
 };
 
 export const deleteAd = async (id: number) => {

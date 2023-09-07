@@ -32,14 +32,13 @@ const Slidenews = () => {
         {allNews?.map((slide, i) => {
           return (
             <Link
-              href="{news.slug}"
+              href={slide.slug}
               //   className="w-1/2 max-sm:h-auto max-sm:w-full"
               key={i}
             >
               <Image
-                src="/logo.jpg"
-                // src="{`/${slide.image}`}"
-                alt=""
+                src={`/${slide.image}`}
+                alt={slide.image}
                 width={200}
                 height={10}
                 className="w-full h-96 object-cover"
@@ -48,10 +47,9 @@ const Slidenews = () => {
           );
         })}
       </Slider>
-      <Link href="{news.slug}">
+      <Link href="{/ad.slug}">
         <Image
-          src="/logo.jpg"
-          // src="{`/${slide.ad}`}"
+          src="{`/${ad.image}`}"
           alt=""
           width={200}
           height={10}

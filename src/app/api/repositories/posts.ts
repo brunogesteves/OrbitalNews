@@ -14,7 +14,11 @@ export const getPost = async (data: string) => {
     where: { title: data },
     include: { category: { select: { name: true } } },
   });
-  return contentNews;
+  if (contentNews) {
+    return contentNews;
+  } else {
+    return false;
+  }
 };
 
 export const getEditPost = async (data: number) => {

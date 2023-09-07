@@ -10,9 +10,9 @@ export default async function RootAdminLayout({
   return (
     <>
       <Header username={''} />
-      <div className="flex justify-start items-start h-full bg-white">
+      <div className="flex justify-start items-start w-auto h-auto bg-white">
         <Sidebar />
-        <div className="h-full overflow-y-auto w-full">{children}</div>
+        <div className="h-screen overflow-y-auto w-full ">{children}</div>
       </div>
     </>
   );

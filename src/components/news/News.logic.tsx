@@ -3,15 +3,23 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { contentNewsProps } from '@/Utils/types';
+import { api } from '@/Utils/api';
+import { useRouter } from 'next/navigation';
 
 export const useLogic = (namePage: string) => {
   const [infopost, setInfopost] = useState<contentNewsProps>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isPause, setIsPause] = useState<boolean>(false);
+  const { replace } = useRouter();
+
   async function getContentPost() {
-    axios
-      .get(`http://localhost:3000/api/getuniquepost/${namePage}`)
-      .then((res) => setInfopost(res.data.success));
+    api.get(`/getuniquepost/${namePage}`).then((res) => {
+      if (res.data.success) {
+        setInfopost(res.data.success);
+      } else {
+        replace(`/404`);
+      }
+    });
   }
 
   useEffect(() => {
