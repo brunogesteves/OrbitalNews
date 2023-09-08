@@ -9,7 +9,7 @@ export interface contentNewsProps {
   audio: string;
   file: string;
   categoryId?: number;
-  category: {
+  category?: {
     name: string;
   };
 }

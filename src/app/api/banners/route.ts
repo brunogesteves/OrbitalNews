@@ -3,18 +3,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createBanner, deleteAd, getAllAds } from '../repositories/banners';
 
 export async function GET(request: NextRequest) {
-  const sectionBanner: any = request.nextUrl.searchParams.get('position');
-  console.log(sectionBanner);
+  const sectionBanner: string | null =
+    request.nextUrl.searchParams.get('position');
 
-  if (
-    sectionBanner == 'news' ||
-    sectionBanner == 'top' ||
-    sectionBanner == 'slide'
-  ) {
-    const contentBanner = await getAllAds(sectionBanner);
+  try {
+    if (sectionBanner == 'news') {
+      const contentBanner = await getAllAds(sectionBanner, 1);
+      return NextResponse.json({ results: contentBanner });
+    } else if (sectionBanner == 'top') {
+      const contentBanner = await getAllAds(sectionBanner, 3);
+      return NextResponse.json({ results: contentBanner });
+    } else if (sectionBanner == 'slide') {
+      const contentBanner = await getAllAds(sectionBanner, 2);
 
-    return NextResponse.json({ results: contentBanner });
-  }
+      return NextResponse.json({ results: contentBanner });
+    }
+  } catch (error) {}
 }
 
 export async function POST(request: Request) {
@@ -30,7 +34,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: NextRequest) {
   const idAd: string | null = request.nextUrl.searchParams.get('id');
 
-  if (idAd !== null) {
+  if (idAd !== null || idAd !== Number(0)) {
     const isDeleted = await deleteAd(Number(idAd));
     return NextResponse.json({ success: isDeleted });
   }

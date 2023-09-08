@@ -1,18 +1,34 @@
-import { FC } from 'react';
-import axios from 'axios';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-import Footer from '@/components/common/Footer';
-import Header from '@/components/home/Header';
+import Header from '@/components/home/Header/Header.view';
 import Content from '@/components/news/News.view';
 
 interface pageProps {
   params: { news: string };
 }
 
-const news: FC<pageProps> = ({ params }) => {
+const news: React.FC<pageProps> = ({ params }) => {
+  const cookieStore = cookies();
+  const isLogged = cookieStore.get('next-auth.session-token');
+  const idPost = cookieStore.get('idPost');
   return (
     <>
+      {isLogged?.value ? (
+        <div className="h-10 bg-black w-full flex items-center">
+          <span className="text-white ">
+            You are logged:{' '}
+            <Link
+              href={`/admin/edit/${idPost?.value}`}
+              className="hover:underline"
+            >
+              Edit Post here{' '}
+            </Link>
+          </span>
+        </div>
+      ) : (
+        ''
+      )}
       <Header />
       <section className="w-full h-auto">
         <div className="w-full flex justify-between my-2 gap-x-2 max-sm:flex-col">

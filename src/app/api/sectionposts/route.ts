@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getSectionContent } from '../repositories/posts';
+import { Section } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   const section: any = request.nextUrl.searchParams.get('section');

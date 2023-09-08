@@ -3,7 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 import Footer from '@/components/common/Footer';
-import Header from '@/components/home/Header';
+import Header from '@/components/home/Header/Header.view';
 import Content from '@/components/news/News.view';
 
 interface pageProps {

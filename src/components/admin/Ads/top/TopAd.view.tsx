@@ -34,18 +34,33 @@ const TopAd = () => {
             alt={banner.image}
             width={500}
             height={500}
-            className="w-1/2 h-auto"
+            className="w-1/4 h-auto"
           />
           <span>Status: </span>
-          <select defaultValue={banner.status}>
+          <select
+            defaultValue={banner.status}
+            onChange={(e) => {
+              methods.setStatus(e.target.value == 'true' ? true : false);
+              methods.setExpirationDate(banner.limitDate);
+            }}
+          >
             <option value="true">true</option>
             <option value="false">false</option>
           </select>
-          <span>Expiration Date: {methods.toDate(banner.limitDate)}</span>
-
+          <span>Expiration Date: </span>
+          <DatePicker
+            selected={new Date(banner.limitDate)}
+            onChange={(date: Date) => {
+              data.banners[0].limitDate = date;
+              methods.setExpirationDate(date);
+              methods.setStatus(banner.status == 'true' ? true : false);
+            }}
+            className="border-2 border-black rounded-md mb-3 w-full"
+            minDate={new Date()}
+          />
           <button
             className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3"
-            // onClick={() => data.router.replace(`/admin/edit/${news.id}`)}
+            onClick={() => methods.updateBanner(banner.id)}
           >
             Update
           </button>

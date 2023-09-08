@@ -17,8 +17,8 @@ export const useLogic = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [idToDelete, setIdToDelete] = useState<number>();
   async function getBanners() {
-    await api.get(`/banners`, { params: { section: 'slide' } }).then((res) => {
-      if (res.data.results) {
+    await api.get(`/banners`, { params: { position: 'slide' } }).then((res) => {
+      if (res.data) {
         setBanners(res.data.results);
       }
     });

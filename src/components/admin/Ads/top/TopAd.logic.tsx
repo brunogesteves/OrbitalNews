@@ -15,21 +15,26 @@ export const useLogic = () => {
   };
   const [banners, setBanners] = useState<BannerProps[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [idToDelete, setIdToDelete] = useState<number>();
-
+  const [idToDelete, setIdToDelete] = useState<number>(0);
+  const [expirationDate, setExpirationDate] = useState<Date>(new Date());
+  const [status, setStatus] = useState<boolean>(true);
   function getBanners() {
-    api.get(`/banners`, { params: { position: 'top' } }).then((res) => {
-      if (res.data.results) {
-        setBanners(res.data.results);
-      }
-    });
+    api
+      .get(`/banners`, { params: { position: 'top' } })
+
+      .then((res) => {
+        if (res.data) {
+          setBanners(res.data.results);
+        }
+      });
   }
+
   useEffect(() => {
     getBanners();
   }, []);
 
   useEffect(() => {
-    async function deleteBanners() {
+    async function deleteBanner() {
       await api
         .delete(`/banners`, { params: { id: idToDelete } })
         .then((res) => {
@@ -39,7 +44,7 @@ export const useLogic = () => {
         });
     }
     if (idToDelete != 0) {
-      deleteBanners();
+      deleteBanner();
     }
   }, [idToDelete]);
 
@@ -53,6 +58,12 @@ export const useLogic = () => {
     setIsOpen(false);
   }
 
+  async function updateBanner(bannerId: number) {
+    await api
+      .put(`/banners/${bannerId}`, { limitDate: expirationDate, status })
+      .then((res) => console.log(res));
+  }
+
   function toDate(date: any) {
     return new Date(date).toLocaleDateString('en-us', {
       year: 'numeric',
@@ -63,12 +74,17 @@ export const useLogic = () => {
       hour12: false,
     });
   }
+
+  console.log(banners);
+
   return {
     data: {
       initialValues,
       banners,
       isOpen,
       idToDelete,
+      expirationDate,
+      status,
     },
     methods: {
       setIsOpen,
@@ -76,6 +92,10 @@ export const useLogic = () => {
       errorField,
       setIdToDelete,
       toDate,
+      updateBanner,
+      setExpirationDate,
+      setStatus,
+      setBanners,
     },
   };
 };

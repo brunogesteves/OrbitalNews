@@ -9,16 +9,14 @@ export const createPost = async (data: Post) => {
   return isCreated;
 };
 
-export const getPost = async (data: string) => {
-  const contentNews = await db.findFirst({
-    where: { title: data },
-    include: { category: { select: { name: true } } },
+export const getPost = async (data: string): Promise<Post> => {
+  const contentNews = await db.findFirstOrThrow({
+    where: {
+      slug: data,
+    },
   });
-  if (contentNews) {
-    return contentNews;
-  } else {
-    return false;
-  }
+
+  return contentNews;
 };
 
 export const getEditPost = async (data: number) => {
@@ -53,7 +51,7 @@ export const deleteNews = async (id: number) => {
 };
 
 export const getSectionContent = async (
-  section: Section | undefined,
+  section: Section,
   limit: string | null
 ) => {
   return await db.findMany({

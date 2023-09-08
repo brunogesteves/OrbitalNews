@@ -9,13 +9,13 @@ datasource db {
 }
 
 model Ads {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.LongText
-  position  Position
-  link      String   @db.LongText
-  status    Boolean
-  image     String
-  limitDate DateTime
+  id             Int      @id @default(autoincrement())
+  title          String   @db.LongText
+  position       Position
+  link           String   @db.LongText
+  status         Boolean
+  image          String
+  expirationDate DateTime
 }
 
 model Category {

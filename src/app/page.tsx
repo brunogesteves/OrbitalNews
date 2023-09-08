@@ -1,42 +1,30 @@
-import Footer from '@/components/common/Footer';
+import { cookies } from 'next/headers';
+
 import FirstNews from '@/components/home/FirstNews';
-import Header from '@/components/home/Header';
+import Header from '@/components/home/Header/Header.view';
 import NewsLeft from '@/components/home/NewsLeft';
 import NewsRight from '@/components/home/NewsRight';
-import Slidenews from '@/components/home/Slidenews';
-import axios from 'axios';
+import Slidenews from '@/components/home/Slides/Slidenews.view';
+import Link from 'next/link';
 
 export default async function Home() {
-  // const fecthNewsLeft = await axios
-  //   .get('http://localhost:3000/newsleft')
-  //   .then((res) => {
-  //     console.log('fecthNewsLeft: ', res.data);
-  //     return res.data;
-  //   });
-
-  // const slideNews = await axios
-  //   .get('http://localhost:3000/slidenews')
-  //   .then((res) => {
-  //     console.log('slideNews: ', res.data);
-  //     return res.data;
-  //   });
-
-  // const fecthNewsRight = await axios
-  //   .get('http://localhost:3000/newsright')
-  //   .then((res) => {
-  //     console.log('fecthNewsRight: ', res.data);
-  //     return res.data;
-  //   });
-
-  // const firstNews = await axios
-  //   .get('http://localhost:3000/firstnews')
-  //   .then((res) => {
-  //     console.log('firstnews: ', res.data);
-  //     return res.data;
-  //   });
+  const cookieStore = cookies();
+  const isLogged = cookieStore.get('next-auth.session-token');
 
   return (
     <>
+      {isLogged?.value ? (
+        <div className="h-10 bg-black w-full flex items-center">
+          <span className="text-white ">
+            You are logged:{' '}
+            <Link href={`/admin`} className="hover:underline">
+              Enter Admin here
+            </Link>
+          </span>
+        </div>
+      ) : (
+        ''
+      )}
       <Header />
       <main className="h-auto mx-3 max-sm:mx-0 ">
         <hr className="h-1 bg-black max-sm:hidden" />

@@ -5,17 +5,10 @@ import Link from 'next/link';
 import Slider from 'react-slick';
 import { BiMenu } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
+import { useLogic } from './Header.logic';
 
 const Header = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-  };
+  const { data, methods } = useLogic();
 
   return (
     <>
@@ -32,26 +25,34 @@ const Header = () => {
             />
           </Link>
         </div>
-        <Slider {...settings} className="w-3/4 h-full">
-          <div className="bg-green-300">
-            <h3>1</h3>
-          </div>
-          <div className="bg-blue-300">
-            <h3>2</h3>
-          </div>
-          <div className="bg-red-300">
-            <h3>3</h3>
-          </div>
+        <Slider {...data.settings} className="w-3/4 h-full">
+          {data.slideBanner?.map((banner) => (
+            <Link href={banner.link} target="_blank" key={banner.id}>
+              <Image
+                src={`/banners/${banner.image}`}
+                alt={banner.image}
+                width={500}
+                height={500}
+                className="w-full h-28 object-cover"
+              />
+            </Link>
+          ))}
         </Slider>
       </div>
       <div className="hidden max-sm:flex max-sm:flex-col">
         <div className="bg-black h-20"></div>
         <nav className="bg-[#251014] w-full relative">
           <div className="w-1/4 flex justify-start py-3 pl-3 gap-x-3 items-center">
-            {isDrawerOpen ? (
-              <IoMdClose color="#fff" onClick={() => setIsDrawerOpen(false)} />
+            {data.isDrawerOpen ? (
+              <IoMdClose
+                color="#fff"
+                onClick={() => methods.setIsDrawerOpen(false)}
+              />
             ) : (
-              <BiMenu color="#fff" onClick={() => setIsDrawerOpen(true)} />
+              <BiMenu
+                color="#fff"
+                onClick={() => methods.setIsDrawerOpen(true)}
+              />
             )}
 
             <Link href="/">
@@ -66,7 +67,7 @@ const Header = () => {
           </div>
           <ul
             className={`absolute top-16 bg-white h-auto w-1/2 px-2 z-10 transition duration-150 ease-out ${
-              isDrawerOpen ? 'translate-x-0' : '-translate-x-64'
+              data.isDrawerOpen ? 'translate-x-0' : '-translate-x-64'
             }`}
           >
             <li className="py-3">

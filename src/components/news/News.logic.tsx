@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { setCookie } from 'cookies-next';
 
 import { contentNewsProps } from '@/Utils/types';
 import { api } from '@/Utils/api';
@@ -14,7 +14,7 @@ export const useLogic = (namePage: string) => {
 
   async function getContentPost() {
     api.get(`/getuniquepost/${namePage}`).then((res) => {
-      if (res.data.success) {
+      if (res.data) {
         setInfopost(res.data.success);
       } else {
         replace(`/404`);
@@ -26,9 +26,12 @@ export const useLogic = (namePage: string) => {
     getContentPost();
   }, []);
 
+  useEffect(() => {
+    setCookie('idPost', infopost?.id);
+  }, [infopost]);
+
   function textToSpeech(action: string) {
-    const text =
-      'In  ancient Rome, there was the habit of celebrating the birthday of a person. There weren’t parties like we know today, but cakes were prepared and offers were made. Then, the habits of wishing happy birthday, giving gifts and lighting candles became popular as a way to protect the birthday person from devils and ensure good things to the next year in the person’s life. The celebrations only became popular like we know today after fourteen centuries, in a collective festival performed in Germany';
+    const text = infopost?.audio;
     const value = new SpeechSynthesisUtterance(text);
     if (action == 'play') {
       window.speechSynthesis.speak(value);
