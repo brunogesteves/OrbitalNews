@@ -19,7 +19,7 @@ const AllNews = () => {
         )
         .map((news) => (
           <div
-            className="flex justify-between items-center h-auto w-full gap-x-2 px-3 mt-3 bg-green-500"
+            className="flex justify-between items-center h-auto w-full gap-x-2 px-3 mt-3 bg-slate-500"
             key={news.id}
           >
             <Image

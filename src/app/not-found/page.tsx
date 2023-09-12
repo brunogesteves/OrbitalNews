@@ -2,7 +2,7 @@ import { FC } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 
-import Footer from '@/components/common/Footer';
+import Footer from '@/components/Common/Footer';
 import Header from '@/components/home/Header/Header.view';
 import Content from '@/components/news/News.view';
 

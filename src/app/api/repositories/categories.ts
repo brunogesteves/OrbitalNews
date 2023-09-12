@@ -4,9 +4,14 @@ import prisma from './prismaClient';
 
 const { category: db } = prisma;
 
-export const createCategory = async (data: Category) => {
+export const createCategory = async (
+  data: Category
+): Promise<string | undefined> => {
   const isCreated = await db.create({ data });
-  return isCreated;
+
+  if (isCreated) {
+    return isCreated.name;
+  }
 };
 
 export const getCategories = (): Promise<Category[]> => db.findMany({});
@@ -16,43 +21,11 @@ export const deleteCategory = async (id: number) => {
   return isdeleted;
 };
 
-// export const n1Posts = (): Promise<category[]> =>
-//   db.create({
-//     data,
-//   });
+export const contentUniqueCategory = async (name: string): Promise<any> => {
+  const content = await db.findMany({
+    where: { name },
+    include: { post: true },
+  });
 
-// export const n2Posts = (): Promise<category[]> =>
-//   db.findMany({
-//     where: {
-//       section: 'n2',
-//     },
-//     take: 2,
-//   });
-
-// export const n3Posts = (): Promise<posts[]> =>
-//   db.findMany({
-//     where: {
-//       section: 'n3',
-//     },
-//     take: 4,
-//   });
-
-// export const n4Posts = (): Promise<posts[]> =>
-//   db.findMany({
-//     where: {
-//       section: 'n4',
-//     },
-//     take: 7,
-//   });
-
-// export const deletebranch = (id: number): Promise<posts> => {
-//   return db.delete({ where: { id } });
-// };
-
-// export const getUniquebranch = (id: number): Promise<posts | null> => {
-//   return db.findUnique({ where: { id } });
-// };
-
-// export const updateBranch = (id: number, data: posts): Promise<posts> => {
-//   return db.update({ where: { id }, data });
-// };
+  return content;
+};

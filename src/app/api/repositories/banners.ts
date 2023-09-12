@@ -17,7 +17,8 @@ export const createBanner = async (data: Ads): Promise<Ads> => {
 
 export const getAllAds = async (
   section: Position,
-  limit: number
+  limit: number,
+  isAdmin: boolean
 ): Promise<Ads[]> => {
   const ads = await db.findMany({
     where: {
@@ -28,7 +29,13 @@ export const getAllAds = async (
     take: limit,
   });
 
-  return ads;
+  const positionAds = await db.findMany({
+    where: {
+      position: section,
+    },
+  });
+
+  return isAdmin ? positionAds : ads;
 };
 
 export const deleteAd = async (id: number): Promise<boolean> => {
@@ -36,8 +43,24 @@ export const deleteAd = async (id: number): Promise<boolean> => {
   return isDeleted ? true : false;
 };
 
-export const updateAd = async (data: updateInfoProps): Promise<boolean> => {
-  const isUpdated = await db.update({ where: { id: data.id }, data });
+export const updateAd = async (data: Ads): Promise<boolean> => {
+  const isUpdated = await db.update({
+    where: { id: data.id },
+    data: {
+      image: data.image,
+      position: data.position,
+      limitDate: data.limitDate,
+      link: data.link,
+      status: data.status,
+      title: data.title,
+    },
+  });
 
   return isUpdated ? true : false;
+};
+
+export const uniqueAd = async (id: number): Promise<Ads | null> => {
+  const uniqueAdContent = await db.findFirst({ where: { id: id } });
+
+  return uniqueAdContent;
 };

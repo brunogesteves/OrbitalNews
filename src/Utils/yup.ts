@@ -4,7 +4,7 @@ export const PostSchema = Yup.object().shape({
   title: Yup.string()
     .required('Field Required')
     .min(10, 'Must be minimum 10 digits')
-    .max(100, 'Must be maximun 100 digits'),
+    .max(100, 'Must be maximum 100 digits'),
   posted_at: Yup.date().required('Field Required'),
   content: Yup.string().required('Field Required'),
   image: Yup.string().required('Field Required'),

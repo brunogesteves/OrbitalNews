@@ -7,7 +7,7 @@ import { useLogic } from './Category.logic';
 
 interface categoriesProps {
   category: (cat: number) => void;
-  defaultValue: number;
+  defaultValue: string;
 }
 
 const Category = (props: categoriesProps) => {
@@ -16,8 +16,8 @@ const Category = (props: categoriesProps) => {
   return (
     <>
       <div className="group w-full">
-        <div className="flex items-center border-2 border-black rounded-md h-8 w-full p-2">
-          {data.allCategories[data?.categorySelected - 1 ?? 0]?.name ?? ''}
+        <div className="flex items-center border-2 border-black rounded-md h-8 w-full p-2 capitalize">
+          {data.categorySelected}
         </div>
         <div className=" w-full bg-slate-50 px-2 overflow-y-auto max-h-56  hidden group-hover:block">
           <div className="hover:cursor-pointer hover:bg-slate-200">
@@ -26,13 +26,13 @@ const Category = (props: categoriesProps) => {
           <div
             className="hover:cursor-pointer hover:bg-slate-200"
             onClick={() => {
-              methods.setCategorySelected(0);
+              methods.setCategorySelected('');
               methods.setIsOpen(true);
             }}
           >
             Create Category
           </div>
-          {data.allCategories?.sort().map((category) => {
+          {data.allCategories?.map((category) => {
             if (data.garbageHover !== category.id) {
               return (
                 <div
@@ -42,7 +42,7 @@ const Category = (props: categoriesProps) => {
                   <span
                     className="w-11/12 capitalize"
                     onClick={() => {
-                      methods.setCategorySelected(category.id);
+                      methods.setCategorySelected(category.name);
                       props.category(category.id);
                     }}
                   >
@@ -67,7 +67,7 @@ const Category = (props: categoriesProps) => {
                   <span
                     className="w-11/12 capitalize"
                     onClick={() => {
-                      methods.setCategorySelected(category.id);
+                      methods.setCategorySelected(category.name);
                       props.category(category.id);
                     }}
                   >
@@ -122,10 +122,10 @@ const Category = (props: categoriesProps) => {
                   </Dialog.Title>
                   <input
                     type="text"
-                    value={data.nameCategory}
+                    value={data.nameNewCategory}
                     placeholder="Type New Category "
                     className="border-2 border-black rounded-md mt-3 mr-3 w-3/5 pl-2 h-10"
-                    onChange={(e) => methods.setNameCategory(e.target.value)}
+                    onChange={(e) => methods.setNameNewCategory(e.target.value)}
                   />
                   <div
                     className={` ${

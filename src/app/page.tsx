@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <>
       {isLogged?.value ? (
-        <div className="h-10 bg-black w-full flex items-center">
+        <div className="h-10 bg-black w-full flex items-center max-md:hidden">
           <span className="text-white ">
             You are logged:{' '}
             <Link href={`/admin`} className="hover:underline">
@@ -27,8 +27,7 @@ export default async function Home() {
       )}
       <Header />
       <main className="h-auto mx-3 max-sm:mx-0 ">
-        <hr className="h-1 bg-black max-sm:hidden" />
-        <section className="w-full h-auto flex justify-center py-2 max-md:flex-col max-sm:mt-2 ">
+        <section className="w-full h-auto flex justify-center py-2 max-md:flex-col max-sm:mt-2 max-sm:gap-y-2 ">
           <NewsLeft />
           <Slidenews />
         </section>

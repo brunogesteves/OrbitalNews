@@ -1,19 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { api } from '@/Utils/api';
+import { categoriesProps } from '@/Utils/types';
 
-interface categoriesProps {
-  id: number;
-  name: string;
-}
-
-export const useLogic = (defaultValue: number) => {
+export const useLogic = (defaultValue: string) => {
   const [isOpen, setIsOpen] = useState(false);
   const [runSpinner, setRunSpinner] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
-  const [nameCategory, setNameCategory] = useState<string>('');
+  const [nameNewCategory, setNameNewCategory] = useState<string>('');
   const [categorySelected, setCategorySelected] =
-    useState<number>(defaultValue);
+    useState<string>(defaultValue);
   const [showWarning, setShowWarning] = useState(false);
   const [allCategories, setAllCategories] = useState<categoriesProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
@@ -31,22 +27,23 @@ export const useLogic = (defaultValue: number) => {
   }, []);
 
   useEffect(() => {
-    if (nameCategory) {
+    if (nameNewCategory) {
       setIsAdded(false);
       setShowWarning(false);
     }
-  }, [nameCategory]);
+  }, [nameNewCategory]);
 
   async function addCategory() {
-    if (nameCategory) {
+    if (nameNewCategory) {
       setRunSpinner(true);
       await api
-        .post('/addcategories', { name: nameCategory })
+        .post('/addcategories', { name: nameNewCategory })
         .then((res) => {
-          if (res.data.status) {
+          if (res.data.id) {
             setRunSpinner(false);
             setIsAdded(true);
-            setNameCategory('');
+            setNameNewCategory('');
+            setCategorySelected(res.data.name);
             getCategories();
           }
         })
@@ -82,7 +79,7 @@ export const useLogic = (defaultValue: number) => {
       isOpen,
       runSpinner,
       isAdded,
-      nameCategory,
+      nameNewCategory,
       categorySelected,
       showWarning,
       allCategories,
@@ -93,7 +90,7 @@ export const useLogic = (defaultValue: number) => {
       setIsOpen,
       setRunSpinner,
       setIsAdded,
-      setNameCategory,
+      setNameNewCategory,
       setCategorySelected,
       setShowWarning,
       setAllCategories,

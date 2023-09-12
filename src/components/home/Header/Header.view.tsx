@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Slider from 'react-slick';
-import { BiMenu } from 'react-icons/bi';
-import { IoMdClose } from 'react-icons/io';
+import { AiOutlineMenu } from 'react-icons/ai';
+
 import { useLogic } from './Header.logic';
 
 const Header = () => {
@@ -12,20 +12,23 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex justify-center h-56 p-4 gap-x-3 max-sm:hidden">
-        <div className="w-1/4 flex justify-center">
+      <div className="flex justify-center h-56 p-4 gap-x-3 max-sm:px-0 ">
+        <div className="w-1/4 flex justify-center max-sm:hidden">
           <Link href="/">
             <Image
               src="/logo.jpg"
               alt="logo"
               width={200}
               height={500}
-              className="h-full"
+              className="h-44"
               priority
             />
           </Link>
         </div>
-        <Slider {...data.settings} className="w-3/4 h-full">
+        <Slider
+          {...data.settings}
+          className="w-3/4 h-auto max-sm:my-20 max-sm:w-full"
+        >
           {data.slideBanner?.map((banner) => (
             <Link href={banner.link} target="_blank" key={banner.id}>
               <Image
@@ -33,81 +36,49 @@ const Header = () => {
                 alt={banner.image}
                 width={500}
                 height={500}
-                className="w-full h-28 object-cover"
+                className="w-full h-44 object-cover"
               />
             </Link>
           ))}
         </Slider>
       </div>
-      <div className="hidden max-sm:flex max-sm:flex-col">
-        <div className="bg-black h-20"></div>
-        <nav className="bg-[#251014] w-full relative">
-          <div className="w-1/4 flex justify-start py-3 pl-3 gap-x-3 items-center">
-            {data.isDrawerOpen ? (
-              <IoMdClose
-                color="#fff"
-                onClick={() => methods.setIsDrawerOpen(false)}
-              />
-            ) : (
-              <BiMenu
-                color="#fff"
-                onClick={() => methods.setIsDrawerOpen(true)}
-              />
-            )}
-
-            <Link href="/">
-              <Image
-                src="/logo.jpg"
-                alt="logo"
-                className="rounded-full w-10 h-10"
-                width={10}
-                height={10}
-              />
+      <hr className="h-1 bg-black mx-3 max-sm:hidden" />
+      <div className="mx-3 max-sm:hidden flex justify-start gap-x-3 capitalize ">
+        {data.allCategories.map((cat) => (
+          <Link href={`/category/${cat.name.toLowerCase()}`} key={cat.id}>
+            <span className="text-xl">{cat.name}</span>
+          </Link>
+        ))}
+      </div>
+      <div className=" 2xl:hidden xl:hidden lg:hidden md:hidden  w-full fixed h-screen top-0 z-50 flex justify-start items-start flex-col">
+        <div className=" bg-black h-20 flex items-center px-3 gap-x-3 w-full">
+          <Link href="/">
+            <Image
+              src="/logo.jpg"
+              alt="logo"
+              width={200}
+              height={500}
+              className="h-14 w-16"
+              priority
+            />
+          </Link>
+          <AiOutlineMenu
+            color="#fff"
+            size={25}
+            onClick={() => methods.setOpenDrawer(!data.openDrawer)}
+          />
+        </div>
+        <div
+          className={`h-20 w-auto  flex items-center bg-white  px-10 rounded-r-md flex-col transition duration-150 ease-out ${
+            data.openDrawer ? 'translate-x-0' : '-translate-x-64'
+          }`}
+        >
+          {data.allCategories.map((cat) => (
+            <Link href={`/category/${cat.name.toLowerCase()}`} key={cat.id}>
+              <span className="text-xl capitalize">{cat.name}</span>
             </Link>
-          </div>
-          <ul
-            className={`absolute top-16 bg-white h-auto w-1/2 px-2 z-10 transition duration-150 ease-out ${
-              data.isDrawerOpen ? 'translate-x-0' : '-translate-x-64'
-            }`}
-          >
-            <li className="py-3">
-              <a href="#" className="p-3 text-xl lowercase">
-                HOME
-              </a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-            <li>
-              <a href="#">li</a>
-            </li>
-          </ul>
-        </nav>
-        {/* {{ Slider }} */}
+          ))}
+        </div>
       </div>
     </>
   );

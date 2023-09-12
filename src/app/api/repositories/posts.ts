@@ -28,8 +28,6 @@ export const getEditPost = async (data: number) => {
 };
 
 export const editPost = async (id: number, data: Post) => {
-  console.log('rep: ', data);
-
   const contentNews = await db.update({
     where: { id: Number(id) },
     data,
@@ -58,5 +56,11 @@ export const getSectionContent = async (
     where: { section },
     take: Number(limit),
     orderBy: { posted_at: 'asc' },
+  });
+};
+
+export const MorePosts = async (namepage: string | null) => {
+  return await db.findMany({
+    take: 3,
   });
 };

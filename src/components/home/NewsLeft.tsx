@@ -17,7 +17,7 @@ const NewsLeft = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap w-1/2 h-auto max-sm:w-full">
+    <div className="flex flex-wrap w-1/2 h-auto max-sm:w-full max-sm:mt-10">
       {allNews?.map((news) => {
         return (
           <Link

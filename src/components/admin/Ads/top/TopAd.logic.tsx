@@ -4,24 +4,15 @@ import { BannerProps } from '@/Utils/types';
 import { useEffect, useState } from 'react';
 
 export const useLogic = () => {
-  const initialValues = {
-    title: '',
-    position: '',
-    link: '',
-    status: '',
-    image: '',
-    limitDate: new Date(),
-    file: '',
-  };
   const [banners, setBanners] = useState<BannerProps[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [idToDelete, setIdToDelete] = useState<number>(0);
-  const [expirationDate, setExpirationDate] = useState<Date>(new Date());
-  const [status, setStatus] = useState<boolean>(true);
-  function getBanners() {
-    api
-      .get(`/banners`, { params: { position: 'top' } })
+  const [runSpinner, setRunSpinner] = useState<boolean>(false);
+  const [bannerId, setBannerId] = useState<number>(0);
 
+  async function getBanners() {
+    await api
+      .get(`/banners`, { params: { position: 'top', isAdmin: true } })
       .then((res) => {
         if (res.data) {
           setBanners(res.data.results);
@@ -38,7 +29,7 @@ export const useLogic = () => {
       await api
         .delete(`/banners`, { params: { id: idToDelete } })
         .then((res) => {
-          if (res.data.status.success) {
+          if (res.data.success) {
             setBanners(banners.filter((banner) => banner.id != idToDelete));
           }
         });
@@ -56,12 +47,9 @@ export const useLogic = () => {
 
   function closeModal() {
     setIsOpen(false);
-  }
-
-  async function updateBanner(bannerId: number) {
-    await api
-      .put(`/banners/${bannerId}`, { limitDate: expirationDate, status })
-      .then((res) => console.log(res));
+    setTimeout(() => {
+      setBannerId(0);
+    }, 1000);
   }
 
   function toDate(date: any) {
@@ -75,16 +63,13 @@ export const useLogic = () => {
     });
   }
 
-  console.log(banners);
-
   return {
     data: {
-      initialValues,
       banners,
       isOpen,
       idToDelete,
-      expirationDate,
-      status,
+      runSpinner,
+      bannerId,
     },
     methods: {
       setIsOpen,
@@ -92,10 +77,9 @@ export const useLogic = () => {
       errorField,
       setIdToDelete,
       toDate,
-      updateBanner,
-      setExpirationDate,
-      setStatus,
+      setBannerId,
       setBanners,
+      setRunSpinner,
     },
   };
 };

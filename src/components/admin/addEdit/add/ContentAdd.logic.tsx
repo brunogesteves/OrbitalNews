@@ -19,6 +19,7 @@ export const useLogic = () => {
     file: '',
   };
   const [message, setMessage] = useState<string>('');
+  const [runSpinner, setRunSpinner] = useState<boolean>(false);
   const slugTitle = (title: string) => {
     return slugify(title, {
       replacement: '-',
@@ -41,11 +42,13 @@ export const useLogic = () => {
       message,
       router,
       initialValues,
+      runSpinner,
     },
     methods: {
       slugTitle,
       errorField,
       setMessage,
+      setRunSpinner,
     },
   };
 };

@@ -9,9 +9,13 @@ import { api } from '@/Utils/api';
 export const useLogic = (id: number) => {
   const [infopost, setInfopost] = useState<contentNewsProps>();
   const [message, setMessage] = useState('');
+  const [runSpinner, setRunSpinner] = useState<boolean>(false);
+  const [defaultCategory, setDefaultCategory] = useState<string>('');
+
   function getContentPost() {
     api.get(`/getidpost/${id}`).then((res) => {
       setInfopost(res.data.success);
+      setDefaultCategory(res.data.success.category.name);
     });
   }
 
@@ -63,11 +67,14 @@ export const useLogic = (id: number) => {
     data: {
       initialValues,
       message,
+      runSpinner,
+      defaultCategory,
     },
     methods: {
       setMessage,
       slugTitle,
       errorField,
+      setRunSpinner,
     },
   };
 };

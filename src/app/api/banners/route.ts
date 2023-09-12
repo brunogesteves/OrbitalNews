@@ -5,16 +5,18 @@ import { createBanner, deleteAd, getAllAds } from '../repositories/banners';
 export async function GET(request: NextRequest) {
   const sectionBanner: string | null =
     request.nextUrl.searchParams.get('position');
+  const isAdmin =
+    request.nextUrl.searchParams.get('isAdmin') == 'true' ? true : false;
 
   try {
     if (sectionBanner == 'news') {
-      const contentBanner = await getAllAds(sectionBanner, 1);
+      const contentBanner = await getAllAds(sectionBanner, 1, isAdmin);
       return NextResponse.json({ results: contentBanner });
     } else if (sectionBanner == 'top') {
-      const contentBanner = await getAllAds(sectionBanner, 3);
+      const contentBanner = await getAllAds(sectionBanner, 3, isAdmin);
       return NextResponse.json({ results: contentBanner });
     } else if (sectionBanner == 'slide') {
-      const contentBanner = await getAllAds(sectionBanner, 2);
+      const contentBanner = await getAllAds(sectionBanner, 2, isAdmin);
 
       return NextResponse.json({ results: contentBanner });
     }

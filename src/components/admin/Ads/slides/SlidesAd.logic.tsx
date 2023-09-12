@@ -15,13 +15,17 @@ export const useLogic = () => {
   };
   const [banners, setBanners] = useState<BannerProps[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [idToDelete, setIdToDelete] = useState<number>();
+  const [idToDelete, setIdToDelete] = useState<number>(0);
+  const [runSpinner, setRunSpinner] = useState<boolean>(false);
+
   async function getBanners() {
-    await api.get(`/banners`, { params: { position: 'slide' } }).then((res) => {
-      if (res.data) {
-        setBanners(res.data.results);
-      }
-    });
+    await api
+      .get(`/banners`, { params: { position: 'slide', isAdmin: true } })
+      .then((res) => {
+        if (res.data) {
+          setBanners(res.data.results);
+        }
+      });
   }
 
   useEffect(() => {
@@ -29,17 +33,17 @@ export const useLogic = () => {
   }, []);
 
   useEffect(() => {
-    async function deleteBanners() {
+    async function deleteBanner() {
       await api
         .delete(`/banners`, { params: { id: idToDelete } })
         .then((res) => {
-          if (res.data.status.success) {
+          if (res.data.success) {
             setBanners(banners.filter((banner) => banner.id != idToDelete));
           }
         });
     }
     if (idToDelete != 0) {
-      deleteBanners();
+      deleteBanner();
     }
   }, [idToDelete]);
 
@@ -69,6 +73,7 @@ export const useLogic = () => {
       banners,
       isOpen,
       idToDelete,
+      runSpinner,
     },
     methods: {
       setIsOpen,
@@ -76,6 +81,7 @@ export const useLogic = () => {
       errorField,
       setIdToDelete,
       toDate,
+      setRunSpinner,
     },
   };
 };

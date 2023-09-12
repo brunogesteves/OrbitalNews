@@ -7,7 +7,7 @@ const Sidebar = () => {
       <div className="w-3/4 flex justify-start group flex-col cursor-pointer">
         <Link href="/admin">Posts</Link>
         <div className="hidden group-hover:block mt-3 cursor-pointer ml-5">
-          <Link href="/admin/add">Adicionar novo Post</Link>
+          <Link href="/admin/add">Add new Post</Link>
         </div>
       </div>
 

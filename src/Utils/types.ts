@@ -20,11 +20,17 @@ export interface LoginProps {
 }
 
 export interface BannerProps {
-  id: number;
+  id?: number;
   title: string;
   position: string;
   link: string;
   status: string;
   image: string;
   limitDate: Date;
+  file: (string | Blob)[];
+}
+
+export interface categoriesProps {
+  id: number;
+  name: string;
 }

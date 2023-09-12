@@ -4,7 +4,6 @@ import { editPost } from '../repositories/posts';
 
 export async function POST(request: Request) {
   const contentEditPost = await request.json();
-  console.log('pi: ', contentEditPost);
 
   delete contentEditPost.values.file;
 

@@ -1,19 +1,14 @@
 'use client';
-import React, { Fragment } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Dialog, Transition } from '@headlessui/react';
-import { Field, Form, Formik } from 'formik';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
-import { BannerSchema } from '@/Utils/yup';
 import { useLogic } from './TopAd.logic';
-import ImageUpload from '../../addEdit/ImageUpload';
-import { api } from '@/Utils/api';
 import { AiFillDelete } from 'react-icons/ai';
+import { NewAd } from '../UpdateAddAd/UpdateAddAd.view';
 
 const TopAd = () => {
   const { data, methods } = useLogic();
+
   return (
     <div className="w-full flex justify-center items-center flex-col ">
       <button
@@ -25,188 +20,45 @@ const TopAd = () => {
 
       <div className="text-3xl">Top banners</div>
       {data.banners.map((banner) => (
-        <div
-          key={banner.id}
-          className="h-auto w-full flex justify-between items-center my-3 mr-3"
-        >
-          <Image
-            src={`/banners/${banner.image}`}
-            alt={banner.image}
-            width={500}
-            height={500}
-            className="w-1/4 h-auto"
-          />
-          <span>Status: </span>
-          <select
-            defaultValue={banner.status}
-            onChange={(e) => {
-              methods.setStatus(e.target.value == 'true' ? true : false);
-              methods.setExpirationDate(banner.limitDate);
-            }}
-          >
-            <option value="true">true</option>
-            <option value="false">false</option>
-          </select>
-          <span>Expiration Date: </span>
-          <DatePicker
-            selected={new Date(banner.limitDate)}
-            onChange={(date: Date) => {
-              data.banners[0].limitDate = date;
-              methods.setExpirationDate(date);
-              methods.setStatus(banner.status == 'true' ? true : false);
-            }}
-            className="border-2 border-black rounded-md mb-3 w-full"
-            minDate={new Date()}
-          />
-          <button
-            className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3"
-            onClick={() => methods.updateBanner(banner.id)}
-          >
-            Update
-          </button>
-          <AiFillDelete
-            size={20}
-            color="red"
-            className="cursor-pointer"
-            onClick={() => {
-              methods.setIdToDelete(banner?.id);
-            }}
-          />
+        <div key={banner.id} className="w-full mb-5">
+          <div className="flex justify-center">
+            <Image
+              src={`/banners/${banner.image}`}
+              alt={banner.image}
+              width={500}
+              height={500}
+              className="w-1/2 h-auto "
+            />
+          </div>
+          <div className="h-auto w-full flex justify-between items-center px-10">
+            <div>
+              <span>Status: </span>
+              <select defaultValue={banner.status}>
+                <option value="true">true</option>
+                <option value="false">false</option>
+              </select>
+            </div>
+            <span>Expiration Date: {methods.toDate(banner.limitDate)}</span>
+            <span>Link: {banner.link}</span>
+
+            <button
+              className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3"
+              onClick={() => methods.setBannerId(banner.id ?? 0)}
+            >
+              Update
+            </button>
+            <AiFillDelete
+              size={20}
+              color="red"
+              className="cursor-pointer"
+              onClick={() => {
+                methods.setIdToDelete(banner?.id ?? 0);
+              }}
+            />
+          </div>
         </div>
       ))}
-      <Transition appear show={data.isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={methods.closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Add Banner
-                  </Dialog.Title>
-
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    onClick={methods.closeModal}
-                  >
-                    Close
-                  </button>
-                  <Formik
-                    initialValues={data.initialValues}
-                    validationSchema={BannerSchema}
-                    onSubmit={async (values) => {
-                      console.log('ads: ', values);
-                      await api
-                        .post('/addbanner', values)
-                        .then(async (res) => {
-                          if (res.data.success) {
-                            const formData = new FormData();
-                            formData.append('file', values.file[0]);
-                            formData.append('name', values.image);
-                            formData.append('directory', '/banners');
-                            const response = await fetch('/api/upload', {
-                              method: 'POST',
-                              body: formData,
-                            });
-                          }
-                        })
-                        .catch((error) => console.log(error));
-                    }}
-                  >
-                    {({ errors, touched, values, setFieldValue }) => (
-                      <Form>
-                        <Field
-                          name="title"
-                          placeholder="title Banner"
-                          className="border-2 border-black rounded-md mb-3 pl-1 w-full"
-                        />
-                        {methods.errorField(errors, touched, 'title')}
-                        <Field
-                          name="link"
-                          placeholder="link"
-                          className="border-2 border-black rounded-md mb-3 pl-1 w-full"
-                        />
-                        {methods.errorField(errors, touched, 'link')}
-                        <Field
-                          as="select"
-                          name="position"
-                          className="mb-3 w-full border-2 border-black rounded-md"
-                        >
-                          <option>Select a position</option>
-                          <option value="top">top</option>
-                          <option value="slide">slide</option>
-                          <option value="news">news</option>
-                        </Field>
-                        <span className="mr-2">limtDate:</span>
-                        <DatePicker
-                          selected={values.limitDate}
-                          onChange={(date) => setFieldValue('limitDate', date)}
-                          className="border-2 border-black rounded-md mb-3 w-full"
-                          minDate={new Date()}
-                        />
-                        <Field
-                          as="select"
-                          name="status"
-                          className="mb-3 w-full border-2 border-black rounded-md"
-                        >
-                          <option>Choose the status</option>
-                          <option value="true">true</option>
-                          <option value="false">false</option>
-                        </Field>
-                        {methods.errorField(errors, touched, 'status')}
-                        <ImageUpload
-                          file={(e: any) => {
-                            setFieldValue('image', e[0].name);
-                            setFieldValue('file', e);
-                          }}
-                        />
-                        <div className="w-full flex justify-center gap-x-3">
-                          <button
-                            type="submit"
-                            className="bg-slate-200 hover:bg-slate-500 hover:text-white mt-3 w-20 h-10  rounded-md mb-3"
-                          >
-                            Add
-                          </button>
-                          <button
-                            type="submit"
-                            className="bg-red-200 hover:bg-red-500 hover:text-white mt-3 w-20 h-10 rounded-md mb-3"
-                            onClick={() => methods.closeModal()}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
+      <NewAd data={data} methods={methods} />
     </div>
   );
 };

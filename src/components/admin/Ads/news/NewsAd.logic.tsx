@@ -16,34 +16,37 @@ export const useLogic = () => {
   const [banners, setBanners] = useState<BannerProps[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [idToDelete, setIdToDelete] = useState<number>(0);
+  const [runSpinner, setRunSpinner] = useState<boolean>(false);
   async function getBanners() {
-    await api.get(`/banners`, { params: { section: 'news' } }).then((res) => {
-      if (res.data.results) {
-        setBanners(res.data.results);
-      }
-    });
+    await api
+      .get(`/banners`, { params: { position: 'slide', isAdmin: true } })
+      .then((res) => {
+        if (res.data) {
+          setBanners(res.data.results);
+        }
+      });
   }
 
   useEffect(() => {
-    async function deleteBanners() {
+    async function deleteBanner() {
       await api
         .delete(`/banners`, { params: { id: idToDelete } })
         .then((res) => {
-          if (res.data.status.success) {
+          if (res.data.success) {
+            console.log('delete : ', res.data.success);
+
             setBanners(banners.filter((banner) => banner.id != idToDelete));
           }
         });
     }
     if (idToDelete != 0) {
-      deleteBanners();
+      deleteBanner();
     }
   }, [idToDelete]);
 
   useEffect(() => {
     getBanners();
   }, []);
-
-  useEffect(() => {}, []);
 
   function errorField(errors: any, touched: any, fieldName: string) {
     return errors[fieldName] && touched[fieldName] ? (
@@ -66,14 +69,13 @@ export const useLogic = () => {
     });
   }
 
-  console.log('id: ', idToDelete);
-
   return {
     data: {
       initialValues,
       banners,
       isOpen,
       idToDelete,
+      runSpinner,
     },
     methods: {
       setIsOpen,
@@ -81,6 +83,7 @@ export const useLogic = () => {
       errorField,
       setIdToDelete,
       toDate,
+      setRunSpinner,
     },
   };
 };

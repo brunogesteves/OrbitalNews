@@ -5,7 +5,7 @@ import { createCategory } from '../repositories/categories';
 export async function POST(request: Request) {
   const newCategory = await request.json();
 
-  const createNewCategory = createCategory(newCategory);
+  const idNewCategory = createCategory(newCategory);
 
-  return NextResponse.json({ status: createNewCategory });
+  return NextResponse.json({ id: idNewCategory });
 }

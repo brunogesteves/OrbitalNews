@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
   const file: File | null = data.get('file') as unknown as File;
   const fileName: string = data.get('name') as string;
   const directory: string = data.get('directory') as string;
-  console.log(fileName);
 
   if (!file) {
     return NextResponse.json({ success: false });

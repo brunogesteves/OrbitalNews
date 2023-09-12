@@ -17,7 +17,7 @@ export const useLogic = (namePage: string) => {
       if (res.data) {
         setInfopost(res.data.success);
       } else {
-        replace(`/404`);
+        replace(`/not-found`);
       }
     });
   }
