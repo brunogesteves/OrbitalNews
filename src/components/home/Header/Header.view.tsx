@@ -44,11 +44,13 @@ const Header = () => {
       </div>
       <hr className="h-1 bg-black mx-3 max-sm:hidden" />
       <div className="mx-3 max-sm:hidden flex justify-start gap-x-3 capitalize ">
-        {data.allCategories.map((cat) => (
-          <Link href={`/category/${cat.name.toLowerCase()}`} key={cat.id}>
-            <span className="text-xl">{cat.name}</span>
-          </Link>
-        ))}
+        {data.allCategories
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((cat) => (
+            <Link href={`/category/${cat.name.toLowerCase()}`} key={cat.id}>
+              <span className="text-xl">{cat.name}</span>
+            </Link>
+          ))}
       </div>
       <div className=" 2xl:hidden xl:hidden lg:hidden md:hidden  w-full fixed h-screen top-0 z-50 flex justify-start items-start flex-col">
         <div className=" bg-black h-20 flex items-center px-3 gap-x-3 w-full">
