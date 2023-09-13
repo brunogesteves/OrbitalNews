@@ -43,7 +43,7 @@ export const useLogic = (defaultValue: string) => {
             setRunSpinner(false);
             setIsAdded(true);
             setNameNewCategory('');
-            setCategorySelected(res.data.name);
+            setCategorySelected(nameNewCategory);
             getCategories();
           }
         })
