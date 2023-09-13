@@ -16,9 +16,14 @@ export const useLogic = (defaultValue: string) => {
   const [garbageHover, setGarbageHover] = useState(0);
 
   async function getCategories() {
+    console.log('pega cats');
+
     await api
       .get('/getcategories')
-      .then((res) => setAllCategories(res.data.allCategories))
+      .then((res) => {
+        console.log('cates: ', res.data.allCategories);
+        setAllCategories(res.data.allCategories);
+      })
       .catch((error) => console.log(error));
   }
 
