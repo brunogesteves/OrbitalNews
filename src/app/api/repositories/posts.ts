@@ -60,8 +60,8 @@ export const getSectionContent = async (
 };
 
 export const MorePosts = async (slugException: string) => {
-  const productsCount = await db.count();
-
+  const postsCount = await db.count();
+  console.log('rep count:', postsCount);
   const randomNumbers = (min: number, max: number): number[] => {
     const numbers: number[] = [];
     while (numbers.length < 3) {
@@ -77,12 +77,14 @@ export const MorePosts = async (slugException: string) => {
     return numbers;
   };
 
-  return await db.findMany({
+  const posts = await db.findMany({
     where: {
-      id: { in: randomNumbers(0, productsCount) },
+      id: { in: randomNumbers(0, postsCount) },
       slug: {
         not: slugException,
       },
     },
   });
+
+  return posts;
 };

@@ -9,7 +9,7 @@ export const useLogic = (namepage: string) => {
 
   async function getMmorePosts() {
     await api.get(`/moreposts`, { params: { namepage } }).then((res) => {
-      if (res.data) setPosts(res.data.results);
+      if (res.data) setPosts(res.data.content);
     });
   }
 
