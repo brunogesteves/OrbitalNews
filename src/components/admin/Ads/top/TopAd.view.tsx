@@ -38,7 +38,9 @@ const TopAd = () => {
                 <option value="false">false</option>
               </select>
             </div>
-            <span>Expiration Date: {methods.toDate(banner.limitDate)}</span>
+            <span>
+              Expiration Date: {methods.toDate(banner.expirationDate)}
+            </span>
             <span>Link: {banner.link}</span>
 
             <button

@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getSectionContent } from '../repositories/posts';
-import { Section } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   const section: any = request.nextUrl.searchParams.get('section');
-  const limit: string | null = request.nextUrl.searchParams.get('limit');
+  const quantity: string | null = request.nextUrl.searchParams.get('quantity');
 
-  const sectionContent = await getSectionContent(section, limit);
+  const sectionContent = await getSectionContent(section, quantity);
 
   return NextResponse.json({ results: sectionContent });
 }

@@ -6,7 +6,7 @@ CREATE TABLE `Ads` (
     `link` LONGTEXT NOT NULL,
     `status` BOOLEAN NOT NULL,
     `image` VARCHAR(191) NOT NULL,
-    `limitDate` DATETIME(3) NOT NULL,
+    `expirationDate` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { allnews } from '../repositories/posts';
+import { MorePosts } from '../repositories/posts';
 
 export async function GET(request: NextRequest) {
-  const postexception: string | null =
+  const slugException: string | null =
     request.nextUrl.searchParams.get('namepage');
 
-  console.log('except: ', postexception);
+  console.log('except: ', slugException);
 
-  // const getAllContent = await allnews();
+  if (slugException) {
+    const getMoreArticles = await MorePosts(slugException);
+  }
 
   return NextResponse.json({ content: true });
 }

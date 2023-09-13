@@ -26,7 +26,7 @@ export interface BannerProps {
   link: string;
   status: string;
   image: string;
-  limitDate: Date;
+  expirationDate: Date;
   file: (string | Blob)[];
 }
 

@@ -15,7 +15,7 @@ export const useLogic = (
     link: '',
     status: '',
     image: '',
-    limitDate: new Date(),
+    expirationDate: new Date(),
     file: [''],
   });
 
@@ -34,7 +34,7 @@ export const useLogic = (
         link: '',
         status: '',
         image: '',
-        limitDate: new Date(),
+        expirationDate: new Date(),
         file: [''],
       });
     }

@@ -89,8 +89,10 @@ export const NewAd = (props: { data: any; methods: any }) => {
                       </Field>
                       <span className="mr-2">limtDate:</span>
                       <DatePicker
-                        selected={new Date(values.limitDate)}
-                        onChange={(date) => setFieldValue('limitDate', date)}
+                        selected={new Date(values.expirationDate)}
+                        onChange={(date) =>
+                          setFieldValue('expirationDate', date)
+                        }
                         className="border-2 border-black rounded-md mb-3 w-full"
                         minDate={new Date()}
                       />

@@ -10,7 +10,7 @@ const NewsLeft = () => {
 
   useEffect(() => {
     api
-      .get('/sectionposts', { params: { section: 'n1', limit: 4 } })
+      .get('/sectionposts', { params: { section: 'n1', quantity: 4 } })
       .then((res) => {
         if (res.data) setAllNews(res.data.results);
       });

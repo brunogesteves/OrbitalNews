@@ -5,7 +5,7 @@ import prisma from './prismaClient';
 const { ads: db } = prisma;
 
 interface updateInfoProps {
-  limitDate: Date;
+  expirationDate: Date;
   status: boolean;
   id: number;
 }
@@ -17,7 +17,7 @@ export const createBanner = async (data: Ads): Promise<Ads> => {
 
 export const getAllAds = async (
   section: Position,
-  limit: number,
+  quantity: number,
   isAdmin: boolean
 ): Promise<Ads[]> => {
   const ads = await db.findMany({
@@ -25,8 +25,8 @@ export const getAllAds = async (
       position: section,
       status: true,
     },
-    orderBy: { limitDate: 'asc' },
-    take: limit,
+    orderBy: { expirationDate: 'asc' },
+    take: quantity,
   });
 
   const positionAds = await db.findMany({
@@ -49,7 +49,7 @@ export const updateAd = async (data: Ads): Promise<boolean> => {
     data: {
       image: data.image,
       position: data.position,
-      limitDate: data.limitDate,
+      expirationDate: data.expirationDate,
       link: data.link,
       status: data.status,
       title: data.title,

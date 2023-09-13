@@ -50,17 +50,39 @@ export const deleteNews = async (id: number) => {
 
 export const getSectionContent = async (
   section: Section,
-  limit: string | null
+  quantity: string | null
 ) => {
   return await db.findMany({
     where: { section },
-    take: Number(limit),
+    take: Number(quantity),
     orderBy: { posted_at: 'asc' },
   });
 };
 
-export const MorePosts = async (namepage: string | null) => {
+export const MorePosts = async (slugException: string) => {
+  const productsCount = await db.count();
+
+  const randomNumbers = (min: number, max: number): number[] => {
+    const numbers: number[] = [];
+    while (numbers.length < 3) {
+      let difference = max - min;
+
+      let rand = Math.random();
+
+      rand = Math.floor(rand * difference);
+
+      rand = rand + min;
+      numbers.push(rand);
+    }
+    return numbers;
+  };
+
   return await db.findMany({
-    take: 3,
+    where: {
+      id: { in: randomNumbers(0, productsCount) },
+      slug: {
+        not: slugException,
+      },
+    },
   });
 };

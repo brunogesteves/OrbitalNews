@@ -37,7 +37,9 @@ const NewsAd = () => {
                 <option value="false">false</option>
               </select>
             </div>
-            <span>Expiration Date: {methods.toDate(banner.limitDate)}</span>
+            <span>
+              Expiration Date: {methods.toDate(banner.expirationDate)}
+            </span>
             <span>Link: {banner.link}</span>
 
             <button className="bg-black hover:bg-red-700 px-3 py-1 rounded text-white m-3">

@@ -10,7 +10,7 @@ export const useLogic = () => {
     link: '',
     status: '',
     image: '',
-    limitDate: new Date(),
+    expirationDate: new Date(),
     file: '',
   };
   const [banners, setBanners] = useState<BannerProps[]>([]);

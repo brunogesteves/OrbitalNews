@@ -19,7 +19,7 @@ export const useLogic = () => {
 
   async function getNews() {
     await api
-      .get('/sectionposts', { params: { section: 'n2', limit: 4 } })
+      .get('/sectionposts', { params: { section: 'n2', quantity: 4 } })
       .then((res) => {
         if (res.data) setAllNews(res.data.results);
       });

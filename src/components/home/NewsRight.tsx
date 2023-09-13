@@ -10,7 +10,7 @@ const NewsRight = () => {
 
   useEffect(() => {
     api
-      .get('/sectionposts', { params: { section: 'n4', limit: 9 } })
+      .get('/sectionposts', { params: { section: 'n4', quantity: 9 } })
       .then((res) => {
         if (res.data) setAllNews(res.data.results);
       });

@@ -9,7 +9,7 @@ const FirstNews = ({ news }: any) => {
 
   useEffect(() => {
     api
-      .get('/sectionposts', { params: { section: 'n3', limit: 6 } })
+      .get('/sectionposts', { params: { section: 'n3', quantity: 6 } })
       .then((res) => {
         if (res.data) setAllNews(res.data.results);
       });
