@@ -33,7 +33,7 @@ const TopAd = () => {
           <div className="h-auto w-full flex justify-between items-center px-10">
             <div>
               <span>Status: </span>
-              <select defaultValue={banner.status}>
+              <select value={banner.status}>
                 <option value="true">true</option>
                 <option value="false">false</option>
               </select>

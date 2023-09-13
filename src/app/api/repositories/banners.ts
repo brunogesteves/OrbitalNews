@@ -4,12 +4,6 @@ import prisma from './prismaClient';
 
 const { ads: db } = prisma;
 
-interface updateInfoProps {
-  expirationDate: Date;
-  status: boolean;
-  id: number;
-}
-
 export const createBanner = async (data: Ads): Promise<Ads> => {
   const isCreated = await db.create({ data });
   return isCreated;
@@ -44,6 +38,14 @@ export const deleteAd = async (id: number): Promise<boolean> => {
 };
 
 export const updateAd = async (data: Ads): Promise<boolean> => {
+  const status = (e: string | boolean) => {
+    if (e == 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const isUpdated = await db.update({
     where: { id: data.id },
     data: {
@@ -51,7 +53,7 @@ export const updateAd = async (data: Ads): Promise<boolean> => {
       position: data.position,
       expirationDate: data.expirationDate,
       link: data.link,
-      status: data.status,
+      status: status(data.status),
       title: data.title,
     },
   });

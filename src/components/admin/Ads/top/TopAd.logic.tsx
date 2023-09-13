@@ -80,6 +80,7 @@ export const useLogic = () => {
       setBannerId,
       setBanners,
       setRunSpinner,
+      getBanners,
     },
   };
 };

@@ -12,18 +12,23 @@ const Slidenews = () => {
 
   return (
     <div className="w-1/2 max-sm:w-full relative">
-      <div
-        className="absolute left-0 top-1/3 z-20 bg-slate-300 p-3 rounded-r-md "
-        onClick={() => data.sliderRef.current?.slickPrev()}
-      >
-        <AiOutlineLeft size={30} />
-      </div>
-      <div
-        className="absolute right-0 top-1/3 z-20 bg-slate-300 p-3 rounded-l-md "
-        onClick={() => data.sliderRef.current?.slickNext()}
-      >
-        <AiOutlineRight size={30} />
-      </div>
+      {data.allNews.length > 2 ?? (
+        <>
+          <div
+            className="absolute left-0 top-1/3 z-20 bg-slate-300 p-3 rounded-r-md "
+            onClick={() => data.sliderRef.current?.slickPrev()}
+          >
+            <AiOutlineLeft size={30} />
+          </div>
+          <div
+            className="absolute right-0 top-1/3 z-20 bg-slate-300 p-3 rounded-l-md "
+            onClick={() => data.sliderRef.current?.slickNext()}
+          >
+            <AiOutlineRight size={30} />
+          </div>
+        </>
+      )}
+
       <Slider {...data.settings} ref={data.sliderRef}>
         {data.allNews?.map((info, i: number) => {
           return (

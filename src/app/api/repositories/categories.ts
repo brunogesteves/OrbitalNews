@@ -4,14 +4,9 @@ import prisma from './prismaClient';
 
 const { category: db } = prisma;
 
-export const createCategory = async (
-  data: Category
-): Promise<string | undefined> => {
+export const createCategory = async (data: Category): Promise<Category> => {
   const isCreated = await db.create({ data });
-
-  if (isCreated) {
-    return isCreated.name;
-  }
+  return isCreated;
 };
 
 export const getCategories = (): Promise<Category[]> => db.findMany({});

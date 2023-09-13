@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 
 export const useLogic = (
   bannerId: number,
-  setIsOpen: (arg0: boolean) => void
+  setIsOpen: (arg0: boolean) => void,
+  getBanners: () => void
 ) => {
-  const [message, setmessage] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [initialValues, setInitialValues] = useState<BannerProps>({
     title: '',
     position: '',
@@ -63,8 +64,9 @@ export const useLogic = (
           });
           if (response) {
             methods.setRunSpinner(false);
-            setmessage('Added');
+            setMessage('Added');
             actions.resetForm();
+            getBanners();
           }
         }
       })
@@ -79,7 +81,8 @@ export const useLogic = (
       if (res.data.success) {
         if (res.data.success) {
           methods.setRunSpinner(false);
-          setmessage('Updated');
+          setMessage('Updated');
+          getBanners();
         }
       }
     });

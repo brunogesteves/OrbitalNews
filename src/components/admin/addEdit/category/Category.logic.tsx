@@ -16,12 +16,9 @@ export const useLogic = (defaultValue: string) => {
   const [garbageHover, setGarbageHover] = useState(0);
 
   async function getCategories() {
-    console.log('pega cats');
-
     await api
       .get('/getcategories')
       .then((res) => {
-        console.log('cates: ', res.data.allCategories);
         setAllCategories(res.data.allCategories);
       })
       .catch((error) => console.log(error));
@@ -38,18 +35,22 @@ export const useLogic = (defaultValue: string) => {
     }
   }, [nameNewCategory]);
 
+  useEffect(() => {
+    allCategories.sort((a, b) => a.name.localeCompare(b.name));
+  }, [allCategories]);
+
   async function addCategory() {
     if (nameNewCategory) {
       setRunSpinner(true);
       await api
         .post('/addcategories', { name: nameNewCategory })
         .then((res) => {
-          if (res.data.id) {
+          if (res.data) {
             setRunSpinner(false);
             setIsAdded(true);
             setNameNewCategory('');
             setCategorySelected(nameNewCategory);
-            getCategories();
+            setAllCategories([...allCategories, res.data.result]);
           }
         })
         .catch((error) => console.log(error));

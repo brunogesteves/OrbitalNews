@@ -12,8 +12,10 @@ import Image from 'next/image';
 
 export const NewAd = (props: { data: any; methods: any }) => {
   const { data, methods } = props;
-  const { functions, info } = useLogic(data.bannerId, (e: boolean) =>
-    methods.setIsOpen(e)
+  const { functions, info } = useLogic(
+    data.bannerId,
+    (e: boolean) => methods.setIsOpen(e),
+    () => methods.getBanners()
   );
 
   return (
@@ -151,7 +153,7 @@ export const NewAd = (props: { data: any; methods: any }) => {
                             type="submit"
                             className="bg-slate-200 hover:bg-slate-500 hover:text-white mt-3 w-20 h-10  rounded-md mb-3"
                           >
-                            Add
+                            {data.bannerId == 0 ? 'Add' : 'Update '}
                           </button>
                         )}
 
