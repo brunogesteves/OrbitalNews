@@ -41,6 +41,7 @@ const Login = () => {
             {methods.errorField(errors, touched, 'email')}
             <Field
               name="password"
+              type="password"
               className="w-64 h-7 rounded-md border-[1px] border-white bg-transparent text-white px-2 mb-3 placeholder:text-white"
               placeholder="Password"
             />

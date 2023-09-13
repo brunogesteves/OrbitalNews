@@ -1,5 +1,4 @@
 'use client';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { contentNewsProps } from '@/Utils/types';
@@ -30,14 +29,12 @@ export const useLogic = () => {
 
   async function deleteNews() {
     setRunSpinner(true);
-    axios
-      .delete(`http://localhost:3000/api/deletenews/${idToDelete}`)
-      .then((res) => {
-        if (res.data.success) {
-          setRunSpinner(false);
-          setIsDeleted(true);
-        }
-      });
+    api.delete(`/deletenews/${idToDelete}`).then((res) => {
+      if (res.data.success) {
+        setRunSpinner(false);
+        setIsDeleted(true);
+      }
+    });
   }
 
   function toDate(date: any) {

@@ -77,7 +77,7 @@ const Editor = (props: editorProps) => {
     const response = {
       result: [
         {
-          url: `http://localhost:3000`,
+          url: `${process.env.NEXT_PUBLIC_URL}`,
           name: files[0].name,
           size: files[0].size,
         },
@@ -98,7 +98,7 @@ const Editor = (props: editorProps) => {
       onImageUploadBefore={handleImageUploadBefore}
       placeholder="Crie o post....É obrigatório"
       setOptions={{
-        imageGalleryUrl: 'http://localhost:3000/api/allimages',
+        imageGalleryUrl: `${process.env.NEXT_PUBLIC_URL}/api/allimages`,
       }}
       setContents={props.defaultContent}
       lang={'pt_br'}

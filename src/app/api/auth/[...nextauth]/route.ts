@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import axios from 'axios';
+import { api } from '@/Utils/api';
 
 const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -12,13 +12,15 @@ const nextAuthOptions: NextAuthOptions = {
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials): Promise<any> {
-        const response = await axios
-          .post('http://localhost:3000/api/login', credentials)
+        console.log('credentials:', credentials);
+
+        const response = await api
+          .post('/login', credentials)
           .then((res) => {
             return res.data.status;
           })
           .catch((e) => {
-            console.log('erro: ', e); // "Ah, não!"
+            console.log('erro:'); // "Ah, não!"
           });
 
         return response;
