@@ -12,7 +12,7 @@ const Slidenews = () => {
 
   return (
     <div className="w-1/2 max-sm:w-full relative">
-      {data.allNews.length > 2 ?? (
+      {data.allNews.length >= 2 ? (
         <>
           <div
             className="absolute left-0 top-1/3 z-20 bg-slate-300 p-3 rounded-r-md "
@@ -27,6 +27,8 @@ const Slidenews = () => {
             <AiOutlineRight size={30} />
           </div>
         </>
+      ) : (
+        ''
       )}
 
       <Slider {...data.settings} ref={data.sliderRef}>
