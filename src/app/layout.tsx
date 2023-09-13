@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Orbital News',
-  description: 'The most important news',
+  description: 'The Most Important News',
 };
 
 export default function RootLayout({
