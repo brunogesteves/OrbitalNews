@@ -12,16 +12,16 @@ function MoreArticles(props: { namepage: string }) {
     <div>
       {data.posts.map((post, i) => (
         <div className="mb-10" key={i}>
-          <Link href={`/${post.slug}`} className="bg-red-600 w-full h-52 mb-2">
+          <Link href={`/${post.slug}`} className="w-full h-52 mb-2">
             <Image
               src={`/${post.image}`}
               alt="logo"
-              width={200}
+              width={500}
               height={500}
               className="w-full h-full"
             />
           </Link>
-          <p className="text-red-600">{post.title}</p>
+          <p className="text-2xl">{post.title}</p>
         </div>
       ))}
     </div>

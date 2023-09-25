@@ -36,17 +36,21 @@ const ContentEdit = (props: { id: number }) => {
                 values: values,
               })
               .then(async (res) => {
+                methods.setMessage('');
                 if (res.data.success) {
                   if (values.file) {
                     const formData = new FormData();
                     formData.append('file', values.file[0]);
-                    formData.append('name', values.title);
+                    formData.append('name', values.image);
                     formData.append('directory', '/');
 
-                    const response = await fetch('/api/upload', {
-                      method: 'POST',
-                      body: formData,
-                    });
+                    const response = await fetch(
+                      `${process.env.NEXT_PUBLIC_URL}/api/upload`,
+                      {
+                        method: 'POST',
+                        body: formData,
+                      }
+                    );
                     if (response) {
                       methods.setRunSpinner(false);
 

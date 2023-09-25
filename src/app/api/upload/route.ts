@@ -1,5 +1,4 @@
 import { writeFile } from 'fs/promises';
-import { NextApiRequest } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {

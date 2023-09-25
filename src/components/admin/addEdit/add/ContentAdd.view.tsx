@@ -20,6 +20,7 @@ const ContentAdd = () => {
         initialValues={data.initialValues}
         validationSchema={PostSchema}
         onSubmit={async (values) => {
+          methods.setMessage('');
           values.slug = methods.slugTitle(values.title);
           methods.setRunSpinner(true);
           await api
@@ -31,10 +32,13 @@ const ContentAdd = () => {
                 formData.append('name', values.image);
                 formData.append('directory', '/');
 
-                const response = await fetch('/api/upload', {
-                  method: 'POST',
-                  body: formData,
-                });
+                const response = await fetch(
+                  `${process.env.NEXT_PUBLIC_URL}/api/upload`,
+                  {
+                    method: 'POST',
+                    body: formData,
+                  }
+                );
                 if (response) {
                   methods.setRunSpinner(false);
                   methods.setMessage('Post Added');
