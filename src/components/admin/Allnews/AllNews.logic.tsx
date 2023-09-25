@@ -33,6 +33,7 @@ export const useLogic = () => {
       if (res.data.success) {
         setRunSpinner(false);
         setIsDeleted(true);
+        setAllNews(allNews.filter((news) => news.id != idToDelete));
       }
     });
   }

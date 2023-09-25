@@ -45,7 +45,7 @@ export const allnews = async () => {
 };
 
 export const deleteNews = async (id: number) => {
-  return await db.delete({ where: { id } });
+  return await db.delete({ where: { id: Number(id) } });
 };
 
 export const getSectionContent = async (
