@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
   if (!file) {
     return NextResponse.json({ success: false });
   }
+  console.log('api');
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);

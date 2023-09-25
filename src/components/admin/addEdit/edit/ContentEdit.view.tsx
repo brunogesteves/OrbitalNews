@@ -44,13 +44,10 @@ const ContentEdit = (props: { id: number }) => {
                     formData.append('name', values.image);
                     formData.append('directory', '/');
 
-                    const response = await fetch(
-                      `${process.env.NEXT_PUBLIC_URL}/api/upload`,
-                      {
-                        method: 'POST',
-                        body: formData,
-                      }
-                    );
+                    const response = await fetch(`/api/upload`, {
+                      method: 'POST',
+                      body: formData,
+                    });
                     if (response) {
                       methods.setRunSpinner(false);
 
