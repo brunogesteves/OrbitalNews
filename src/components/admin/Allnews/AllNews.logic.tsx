@@ -24,7 +24,9 @@ export const useLogic = () => {
 
   function closeModal() {
     setIsOpen(false);
-    setIsDeleted(false);
+    setTimeout(() => {
+      setIsDeleted(false);
+    }, 1000);
   }
 
   async function deleteNews() {

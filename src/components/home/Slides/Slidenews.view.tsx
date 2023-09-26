@@ -42,7 +42,7 @@ const Slidenews = () => {
                 height={10}
                 className="w-full h-96 object-cover opacity-75"
               />
-              <span className="absolute bottom-10 text-white px-10 drop-shadow-xl">
+              <span className="absolute bottom-10 text-white px-10 drop-shadow-xl text-center w-full">
                 {info.title}
               </span>
             </Link>
