@@ -74,7 +74,7 @@ const ContentAdd = () => {
                 </Field>
                 <DatePicker
                   selected={values.posted_at}
-                  onChange={(date) => setFieldValue('posted_at', date)}
+                  onChange={(date: Date) => setFieldValue('posted_at', date)}
                   className="border-2 border-black rounded-md mb-3 w-full"
                 />
                 {methods.errorField(errors, touched, 'posted_at')}

@@ -12,6 +12,25 @@ const Slidenews = () => {
 
   return (
     <div className="w-1/2 max-sm:w-full relative">
+      <Slider {...data.settings} ref={data.sliderRef}>
+        {/* <Slider {...data.settings} ref={(slider: any) => methods.setGet(slider)}> */}
+        {data.allNews?.map((info, i: number) => {
+          return (
+            <Link href={`/${info.slug}`} key={i} className="relative bg-black">
+              <Image
+                src={`/${info.image}`}
+                alt={info.image}
+                width={200}
+                height={10}
+                className="w-full h-96 object-cover opacity-75"
+              />
+              <span className="absolute bottom-10 text-white px-10 drop-shadow-xl text-center w-full">
+                {info.title}
+              </span>
+            </Link>
+          );
+        })}
+      </Slider>
       {data.allNews.length >= 2 ? (
         <>
           <div
@@ -30,25 +49,6 @@ const Slidenews = () => {
       ) : (
         ''
       )}
-
-      <Slider {...data.settings} ref={data.sliderRef}>
-        {data.allNews?.map((info, i: number) => {
-          return (
-            <Link href={`/${info.slug}`} key={i} className="relative bg-black">
-              <Image
-                src={`/${info.image}`}
-                alt={info.image}
-                width={200}
-                height={10}
-                className="w-full h-96 object-cover opacity-75"
-              />
-              <span className="absolute bottom-10 text-white px-10 drop-shadow-xl text-center w-full">
-                {info.title}
-              </span>
-            </Link>
-          );
-        })}
-      </Slider>
       <Slider {...data.settings}>
         {data.slideBanner?.map((banner) => (
           <Link href={banner.link} target="_blank" key={banner.id}>

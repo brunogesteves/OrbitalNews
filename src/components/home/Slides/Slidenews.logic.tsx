@@ -15,7 +15,7 @@ export const useLogic = () => {
   };
   const [allNews, setAllNews] = useState<contentNewsProps[]>([]);
   const [slideBanner, setSlideBanner] = useState<BannerProps[]>([]);
-  const sliderRef = useRef<Slider>(null);
+  const sliderRef = useRef<typeof Slider>(null);
 
   async function getNews() {
     await api
