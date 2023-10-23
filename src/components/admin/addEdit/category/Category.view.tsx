@@ -32,59 +32,61 @@ const Category = (props: categoriesProps) => {
           >
             Create Category
           </div>
-          {data.allCategories?.map((category) => {
-            if (data.garbageHover !== category.id) {
-              return (
-                <div
-                  className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-200 w-full"
-                  key={category.id}
-                >
-                  <span
-                    className="w-11/12 capitalize"
-                    onClick={() => {
-                      methods.setCategorySelected(category.name);
-                      props.category(category.id);
-                    }}
-                  >
-                    {category.name}
-                  </span>
+          {data.allCategories
+            ?.sort((a, b) => a.name.localeCompare(b.name))
+            .map((category) => {
+              if (data.garbageHover !== category.id) {
+                return (
                   <div
-                    className="w-1/12"
-                    onClick={() => methods.deleteCategory(category.id)}
-                    onMouseEnter={() => methods.setGarbageHover(category.id)}
-                    onMouseLeave={() => methods.setGarbageHover(0)}
+                    className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-200 w-full"
+                    key={category.id}
                   >
-                    <AiOutlineDelete />
+                    <span
+                      className="w-11/12 capitalize"
+                      onClick={() => {
+                        methods.setCategorySelected(category.name);
+                        props.category(category.id);
+                      }}
+                    >
+                      {category.name}
+                    </span>
+                    <div
+                      className="w-1/12"
+                      onClick={() => methods.deleteCategory(category.id)}
+                      onMouseEnter={() => methods.setGarbageHover(category.id)}
+                      onMouseLeave={() => methods.setGarbageHover(0)}
+                    >
+                      <AiOutlineDelete />
+                    </div>
                   </div>
-                </div>
-              );
-            } else {
-              return (
-                <div
-                  className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-200 w-full"
-                  key={category.id}
-                >
-                  <span
-                    className="w-11/12 capitalize"
-                    onClick={() => {
-                      methods.setCategorySelected(category.name);
-                      props.category(category.id);
-                    }}
-                  >
-                    {category.name}
-                  </span>
+                );
+              } else {
+                return (
                   <div
-                    className="w-1/12"
-                    onClick={() => methods.deleteCategory(category.id)}
-                    onMouseEnter={() => methods.setGarbageHover(category.id)}
-                    onMouseLeave={() => methods.setGarbageHover(0)}
+                    className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-200 w-full"
+                    key={category.id}
                   >
-                    <AiFillDelete color="red" />
+                    <span
+                      className="w-11/12 capitalize"
+                      onClick={() => {
+                        methods.setCategorySelected(category.name);
+                        props.category(category.id);
+                      }}
+                    >
+                      {category.name}
+                    </span>
+                    <div
+                      className="w-1/12"
+                      onClick={() => methods.deleteCategory(category.id)}
+                      onMouseEnter={() => methods.setGarbageHover(category.id)}
+                      onMouseLeave={() => methods.setGarbageHover(0)}
+                    >
+                      <AiFillDelete color="red" />
+                    </div>
                   </div>
-                </div>
-              );
-            }
-          })}
+                );
+              }
+            })}
         </div>
       </div>
 

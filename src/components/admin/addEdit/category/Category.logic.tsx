@@ -35,10 +35,6 @@ export const useLogic = (defaultValue: string) => {
     }
   }, [nameNewCategory]);
 
-  useEffect(() => {
-    allCategories.sort((a, b) => a.name.localeCompare(b.name));
-  }, [allCategories]);
-
   async function addCategory() {
     if (nameNewCategory) {
       setRunSpinner(true);

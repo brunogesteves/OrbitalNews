@@ -10,7 +10,7 @@ const ImageUpload = (props: { file: (arg0: any) => void }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
-      'image/*': [],
+      'image/jpg': ['.jpg'],
     },
     onDrop: (acceptedFiles) => {
       setFiles(
