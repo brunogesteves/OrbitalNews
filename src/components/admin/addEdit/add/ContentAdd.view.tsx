@@ -10,7 +10,7 @@ import Editor from '@/components/admin/addEdit/Editor';
 import { PostSchema } from '@/Utils/yup';
 import { useLogic } from './ContentAdd.logic';
 import { api } from '@/Utils/api';
-import { Spinner } from '@/Utils/icons';
+import { Spinner } from '@/components/icons';
 
 const ContentAdd = () => {
   const { data, methods } = useLogic();
