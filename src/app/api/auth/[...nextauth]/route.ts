@@ -12,8 +12,6 @@ const nextAuthOptions: NextAuthOptions = {
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials): Promise<any> {
-        console.log('credentials:', credentials);
-
         const response = await api
           .post('/login', credentials)
           .then((res) => {

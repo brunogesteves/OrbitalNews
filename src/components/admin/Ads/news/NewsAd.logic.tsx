@@ -33,8 +33,6 @@ export const useLogic = () => {
         .delete(`/banners`, { params: { id: idToDelete } })
         .then((res) => {
           if (res.data.success) {
-            console.log('delete : ', res.data.success);
-
             setBanners(banners.filter((banner) => banner.id != idToDelete));
           }
         });

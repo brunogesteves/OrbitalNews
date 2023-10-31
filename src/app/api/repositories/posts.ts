@@ -61,7 +61,6 @@ export const getSectionContent = async (
 
 export const MorePosts = async (slugException: string) => {
   const postsCount = await db.count();
-  console.log('rep count:', postsCount);
   const randomNumbers = (min: number, max: number): number[] => {
     const numbers: number[] = [];
     while (numbers.length < 3) {

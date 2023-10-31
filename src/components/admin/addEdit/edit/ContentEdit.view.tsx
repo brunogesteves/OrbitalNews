@@ -49,7 +49,6 @@ const ContentEdit = (props: { id: number }) => {
                       method: 'POST',
                       body: formData,
                     });
-                    console.log('res: ', response);
                     if (response) {
                       methods.setRunSpinner(false);
                       methods.setMessage('Post Updated');
