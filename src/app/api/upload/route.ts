@@ -8,6 +8,8 @@ export async function POST(request: NextRequest) {
   const fileName: string = data.get('name') as string;
   const directory: string = data.get('directory') as string;
 
+  console.log("api fiel")
+
   if (!file) {
     return NextResponse.json({ success: false });
   }

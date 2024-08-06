@@ -12,6 +12,6 @@ export async function DELETE(
   if (isdeletedCategory) {
     return NextResponse.json({ status: true });
   } else {
-    return NextResponse.json({ status: true });
+    return NextResponse.json({ status: false });
   }
 }
